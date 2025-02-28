@@ -2,6 +2,7 @@ import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Separator } from './ui/separator';
 import { CiSearch } from "react-icons/ci";
+import Data from '@/Shared/Data';
 
 const Search = () => {
   return (
@@ -24,9 +25,9 @@ const Search = () => {
                 <SelectValue placeholder="Car Makes" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="New">New</SelectItem>
-                <SelectItem value="Used">Used</SelectItem>
-                <SelectItem value="Certified Pre-Owned">Certified Pre-Owned</SelectItem>
+                {Data.CarMakes.map((maker,index)=>(
+                    <SelectItem value={maker.name}>{maker.name}</SelectItem>
+                ))}
             </SelectContent>
         </Select>
 
@@ -37,9 +38,9 @@ const Search = () => {
                 <SelectValue placeholder="Pricing" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="New">New</SelectItem>
-                <SelectItem value="Used">Used</SelectItem>
-                <SelectItem value="Certified Pre-Owned">Certified Pre-Owned</SelectItem>
+                {Data.Pricing.map((price,index)=>(
+                    <SelectItem value={price.amount}>{price.amount}$</SelectItem>
+                ))}
             </SelectContent>
         </Select>
         <div>
