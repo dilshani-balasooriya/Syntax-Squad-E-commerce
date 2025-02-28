@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Category from './components/Category';
 import MostSearchedCar from './components/MostSearchedCar';
+import Footer from './components/Footer';
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <Hero/>
       <Category/>
       <MostSearchedCar/>
+      <Footer/>
     </div>
   );
 }
