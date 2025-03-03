@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import { ClerkProvider } from "@clerk/clerk-react";
 import Profile from "./pages/Profile";
+import AddListing from "./admin/AddListing";
 
 const App = () => {
 
@@ -25,6 +26,10 @@ const App = () => {
     {
       path:'/profile',
       element:<Profile/>
+    },
+    {
+      path:'/add-listing',
+      element:<AddListing/>
     },
   ]);
 
