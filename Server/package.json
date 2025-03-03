@@ -1,5 +1,5 @@
 {
-  "name": "syntax-squad-backend",
+  "name": "car-marketplace-syntax-squad-backend",
   "version": "1.0.0",
   "main": "server.js",
   "type": "module",
