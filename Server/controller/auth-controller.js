@@ -23,7 +23,7 @@ export const Login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.status(200).json({ message: "Login successfully", user, token });
+    res.status(200).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
