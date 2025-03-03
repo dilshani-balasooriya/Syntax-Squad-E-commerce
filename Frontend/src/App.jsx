@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Home";
-import Contact from "./Contact";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
 import { ClerkProvider } from "@clerk/clerk-react";
 
 const App = () => {
