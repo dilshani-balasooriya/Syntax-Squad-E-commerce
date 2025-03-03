@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../schema/User.js";
 
-export const register = async (req, res) => {
+export const Login = async (req, res) => {
   try {
     const { clerkId, email } = req.body;
 
