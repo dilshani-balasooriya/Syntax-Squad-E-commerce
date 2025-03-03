@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import { ClerkProvider } from "@clerk/clerk-react";
+import Profile from "./pages/Profile";
 
 const App = () => {
 
@@ -20,6 +21,10 @@ const App = () => {
     {
       path:'/contact',
       element:<Contact/>
+    },
+    {
+      path:'/profile',
+      element:<Profile/>
     },
   ]);
 
