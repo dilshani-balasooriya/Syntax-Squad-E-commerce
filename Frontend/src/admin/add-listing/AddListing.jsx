@@ -1,8 +1,11 @@
 import React from 'react'
+import AdminHeader from '../AdminHeader'
 
 const AddListing = () => {
   return (
-    <div>AddListing</div>
+    <div>
+      <AdminHeader title={"Add Listing"}/>
+    </div>
   )
 }
 

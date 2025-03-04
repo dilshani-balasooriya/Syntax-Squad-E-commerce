@@ -10,7 +10,7 @@ const AdminLayout = () => {
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
       <Sidebar />
-      <div className="flex-1 overflow-auto p-4 relative z-10">
+      <div className="flex-1 overflow-auto relative z-10">
         <Outlet />
       </div>
     </div>
