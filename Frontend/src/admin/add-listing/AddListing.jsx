@@ -3,6 +3,7 @@ import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
 import DropdownField from "./components/DropdownField";
+import TextAreaField from "./components/TextAreaField";
 
 const AddListing = () => {
   return (
@@ -25,6 +26,8 @@ const AddListing = () => {
                     <InputField item={item} />
                   ) : item.fieldType == "dropdown" ? (
                     <DropdownField item={item} />
+                  ) : item.fieldType == "textarea" ? (
+                    <TextAreaField item={item} />
                   ) : null}
                 </div>
               ))}
