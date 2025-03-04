@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -10,6 +10,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
 const AddListing = () => {
+
+  const [formData,setFormData]=useState([]);
+
+  const handleInputChange = (name, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]:value
+    }))
+  }
+
+  const onSubmit = (e)=>{
+    e.preventDefault();
+  }
+
   return (
     <div>
       <AdminHeader title={"Add Listing"} />
@@ -27,11 +41,11 @@ const AddListing = () => {
                     {item.required && <span className="text-red-500">*</span>}
                   </label>
                   {item.fieldType == "text" || item.fieldType == "number" ? (
-                    <InputField item={item} />
+                    <InputField item={item} handleInputChange={handleInputChange} />
                   ) : item.fieldType == "dropdown" ? (
-                    <DropdownField item={item} />
+                    <DropdownField item={item} handleInputChange={handleInputChange} />
                   ) : item.fieldType == "textarea" ? (
-                    <TextAreaField item={item} />
+                    <TextAreaField item={item} handleInputChange={handleInputChange} />
                   ) : null}
                 </div>
               ))}
@@ -45,7 +59,7 @@ const AddListing = () => {
             <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
               {features.features.map((item,index) => (
                 <div key={index} className='flex gap-2 items-center'>
-                  <Checkbox/> <h2>{item.label}</h2>
+                  <Checkbox onCheckedChange={(value)=>handleInputChange(item.name,value)}/> <h2>{item.label}</h2>
                 </div>
               ))}
             </div>
@@ -53,7 +67,7 @@ const AddListing = () => {
           <Separator className="my-6"/>
           {/* Car Images  */}
           <div className="mt-10 flex justify-end">
-            <Button className="bg-red-500">Submit</Button>
+            <Button type="submit"  className="bg-red-500" onClick={(e)=>onSubmit(e)}>Submit</Button>
           </div>
         </form>
       </div>
