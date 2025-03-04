@@ -4,9 +4,9 @@ import { BarChart2, Menu, ShoppingBag, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
-  { name: "Dashboard", icon: BarChart2, color: "#6366f1", href: "/dashboard" },
+  { name: "Dashboard", icon: BarChart2, color: "#6366f1", href: "/admin/dashboard" },
   { name: "Add Listing", icon: ShoppingBag, color: "#8B5CF6", href: "/admin/add-listing",},
-  { name: "Users", icon: Users, color: "#EC4899", href: "/users" },
+  { name: "Users", icon: Users, color: "#EC4899", href: "/admin/users" },
 ];
 
 const Sidebar = () => {

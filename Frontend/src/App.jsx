@@ -6,6 +6,8 @@ import { ClerkProvider } from "@clerk/clerk-react";
 import Profile from "./pages/Profile";
 import AdminLayout from "./admin/AdminLayout";
 import AddListing from "./admin/add-listing/AddListing";
+import Dashboard from "./admin/dashboard/Dashboard";
+import Users from "./admin/users/Users";
 
 const App = () => {
 
@@ -33,9 +35,17 @@ const App = () => {
       element: <AdminLayout/>,
       children: [
         {
+          path:'dashboard',
+          element: <Dashboard/>
+        },
+        {
           path:'add-listing',
           element: <AddListing/>
-        }
+        },
+        {
+          path:'users',
+          element: <Users/>
+        },
       ]
     },
   ]);
