@@ -83,6 +83,10 @@ const carListingSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-});
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true 
+    },
+}, {timestamps: true });
 
 export default mongoose.model("carListing", carListingSchema);
