@@ -1,8 +1,11 @@
+import { Input } from '@/components/ui/input';
 import React from 'react';
 
-const InputField = () => {
+const InputField = ({item}) => {
   return (
-    <div>InputField</div>
+    <div>
+        <Input type={item?.fieldType} name={item?.name} required={item?.required}/>
+    </div>
   );
 }
 
