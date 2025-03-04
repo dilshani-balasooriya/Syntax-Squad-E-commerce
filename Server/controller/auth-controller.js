@@ -3,12 +3,12 @@ import User from "../schema/User.js";
 
 export const Login = async (req, res) => {
   try {
-    const { clerkId, email, isGoogleAuth } = req.body;
+    const { clerkId, email, name, isGoogleAuth } = req.body;
 
     let user = await User.findOne({ clerkId });
 
     if (!user) {
-      user = new User({ clerkId, email, google_auth: isGoogleAuth || false });
+      user = new User({ clerkId, email, name, google_auth: isGoogleAuth || false });
       await user.save();
     } else {
       if (isGoogleAuth && !user.google_auth) {

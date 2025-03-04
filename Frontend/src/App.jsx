@@ -1,8 +1,13 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Home";
-import Contact from "./Contact";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
 import { ClerkProvider } from "@clerk/clerk-react";
+import Profile from "./pages/Profile";
+import AdminLayout from "./admin/AdminLayout";
+import AddListing from "./admin/add-listing/AddListing";
+import Dashboard from "./admin/dashboard/Dashboard";
+import Users from "./admin/users/Users";
 
 const App = () => {
 
@@ -20,6 +25,28 @@ const App = () => {
     {
       path:'/contact',
       element:<Contact/>
+    },
+    {
+      path:'/profile',
+      element:<Profile/>
+    },
+    {
+      path:'/admin',
+      element: <AdminLayout/>,
+      children: [
+        {
+          path:'dashboard',
+          element: <Dashboard/>
+        },
+        {
+          path:'add-listing',
+          element: <AddListing/>
+        },
+        {
+          path:'users',
+          element: <Users/>
+        },
+      ]
     },
   ]);
 

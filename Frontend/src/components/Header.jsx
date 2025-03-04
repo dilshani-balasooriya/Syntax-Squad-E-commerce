@@ -19,6 +19,7 @@ const Header = () => {
         {
           clerkId: user.id,
           email: user.primaryEmailAddress.emailAddress,
+          name: user.fullName,
           isGoogleAuth,
         },
         {
