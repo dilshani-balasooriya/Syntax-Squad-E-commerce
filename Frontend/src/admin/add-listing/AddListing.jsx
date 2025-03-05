@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
+import IconField from "./components/IconField";
 
 const AddListing = () => {
 
@@ -46,7 +47,8 @@ const AddListing = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {carDetails.carDetails.map((item, index) => (
                   <div key={index}>
-                    <label className="text-sm flex gap-2 items-center mb-1">
+                    <label className="text-sm flex gap-2 items-center mb-2">
+                      <IconField icon={item?.icon} />
                       {item?.label}{" "}
                       {item.required && <span className="text-red-500">*</span>}
                     </label>
