@@ -14,10 +14,9 @@ import IconField from "./components/IconField";
 import UploadImages from "./components/UploadImages";
 
 const AddListing = () => {
-  const [formData, setFormData] = useState({});
-  const [featuresData, setFeaturesData] = useState({});
+  const [formData, setFormData] = useState([]);
+  const [featuresData, setFeaturesData] = useState([]);
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
-  const [formKey, setFormKey] = useState(Date.now());
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -38,12 +37,7 @@ const AddListing = () => {
     try {
       const dataToSend = { ...formData, features: featuresData };
       await apiRequest.post("/car-listing/create-listing", dataToSend);
-
-      setFormData({});
-      setFeaturesData({});
       setTriggerUploadImages(true);
-      setFormKey(Date.now());
-
       toast.success("Create new vehicle listing successfully 👍");
     } catch (error) {
       toast.error("Failed to add listing!");
@@ -58,7 +52,6 @@ const AddListing = () => {
         <div className="px-10 md:px-20 my-10">
           <h2 className="font-bold text-4xl">Add New Listing</h2>
           <form
-            key={formKey}
             className="p-10 border rounded-xl mt-10"
             onSubmit={handleSubmit}
           >
