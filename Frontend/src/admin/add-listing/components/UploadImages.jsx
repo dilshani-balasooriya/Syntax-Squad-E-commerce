@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import { storage } from "../../../../config/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import React, { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const UploadImages = () => {
+const UploadImages = ({ triggerUploadImages}) => {
   const [selectedFileList, setSelectedFileList] = useState([]);
+
+  useEffect(()=>{
+    if(triggerUploadImages){
+        UploadImageToServer();
+    }
+  },[triggerUploadImages]);
 
   const onFileSelected = (event) => {
     const files = event.target.files;
@@ -17,6 +25,27 @@ const UploadImages = () => {
     const result = selectedFileList.filter((item) => item != image);
     setSelectedFileList(result);
   };
+
+  const UploadImageToServer = async () => {
+
+    await selectedFileList.forEach(async (file) => {
+      const fileName = Date.now() + ".jpeg";
+      const storageRef = ref(storage, "car-marketplace/" + fileName);
+      const metaData = {
+        contentType: "image/jpeg",
+      };
+      await uploadBytes(storageRef, file, metaData)
+        .then((snapShot) => {
+          console.log("Uploaded File");
+        })
+        .then((resp) => {
+          getDownloadURL(storageRef).then(async (downloadUrl) => {
+            console.log(downloadUrl);
+          });
+        });
+    });
+  };
+
 
   return (
     <div>

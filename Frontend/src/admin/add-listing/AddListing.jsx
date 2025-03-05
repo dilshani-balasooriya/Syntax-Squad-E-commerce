@@ -17,6 +17,7 @@ const AddListing = () => {
 
   const [formData,setFormData]=useState([]);
   const [featuresData,setFeaturesData]=useState([]);
+  const [triggerUploadImages,setTriggerUploadImages]=useState(false); 
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -37,6 +38,7 @@ const AddListing = () => {
     try {
       const dataToSend = { ...formData, features: featuresData };
       await apiRequest.post('/car-listing/create-listing', dataToSend);
+      setTriggerUploadImages(true);
       toast.success("Create new vehicle listing successfully 👍");
     } catch (error) {
       toast.error("Failed to add listing!");
@@ -88,7 +90,7 @@ const AddListing = () => {
             </div>
             <Separator className="my-6"/>
             {/* Car Images  */}
-            <UploadImages />
+            <UploadImages triggerUploadImages={triggerUploadImages} />
 
             <div className="mt-10 flex justify-end">
               <Button type="submit"  className="bg-red-500">Submit</Button>
