@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import FeatureSchema from './FeatureSchema.js';
 
 const carListingSchema = new mongoose.Schema({
     listingTitle: { 
@@ -82,6 +83,10 @@ const carListingSchema = new mongoose.Schema({
     listingDescription: { 
         type: String, 
         required: true 
+    },
+    features: {
+        type: FeatureSchema,
+        default: {}
     },
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
