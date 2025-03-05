@@ -1,7 +1,7 @@
 import CarListing from '../schema/CarListing.js';
 
 export const CreateCarListing = async (req, res) => {
-    const { listingTitle, tagline, originalPrice, sellingPrice, category, condition, make, model, year, driveType, transmission, fuelType, mileage, engineSize, cylinder, color, door, vin, offerType, listingDescription, userId } = req.body;
+    const { listingTitle, tagline, originalPrice, sellingPrice, category, condition, make, model, year, driveType, transmission, fuelType, mileage, engineSize, cylinder, color, door, vin, offerType, listingDescription } = req.body;
 
     try {
         const newCarListing = new CarListing({
@@ -25,7 +25,7 @@ export const CreateCarListing = async (req, res) => {
             vin,
             offerType,
             listingDescription,
-            userId
+            userId: req.user.id
         });
 
         await newCarListing.save();
