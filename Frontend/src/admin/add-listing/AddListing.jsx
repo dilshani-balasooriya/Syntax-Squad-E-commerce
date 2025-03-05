@@ -15,6 +15,7 @@ import IconField from "./components/IconField";
 const AddListing = () => {
 
   const [formData,setFormData]=useState([]);
+  const [featuresData,setFeaturesData]=useState([]);
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -23,10 +24,18 @@ const AddListing = () => {
     }))
   }
 
+  const handleFeatureChange = (name, isChecked) => {
+    setFeaturesData((prevData) => ({
+      ...prevData,
+      [name]:isChecked
+    }))
+  }
+
   const handleSubmit = async (e)=>{
     e.preventDefault();
     try {
-      await apiRequest.post('/car-listing/create-listing', formData);
+      const dataToSend = { ...formData, features: featuresData };
+      await apiRequest.post('/car-listing/create-listing', dataToSend);
       toast.success("Create new vehicle listing successfully 👍");
     } catch (error) {
       toast.error("Failed to add listing!");
@@ -71,7 +80,7 @@ const AddListing = () => {
               <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
                 {features.features.map((item,index) => (
                   <div key={index} className='flex gap-2 items-center'>
-                    <Checkbox onCheckedChange={(value)=>handleInputChange(item.name,value)}/> <h2>{item.label}</h2>
+                    <Checkbox checked={featuresData?.[item.name]} onCheckedChange={(checked)=>handleFeatureChange(item.name,checked)}/> <h2>{item.label}</h2>
                   </div>
                 ))}
               </div>
