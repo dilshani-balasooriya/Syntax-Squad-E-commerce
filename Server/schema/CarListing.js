@@ -86,7 +86,7 @@ const carListingSchema = new mongoose.Schema({
     },
     features: {
         type: FeatureSchema,
-        default: {}
+        default: () => ({})
     },
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 

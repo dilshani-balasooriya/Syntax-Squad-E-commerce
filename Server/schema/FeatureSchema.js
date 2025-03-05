@@ -103,4 +103,4 @@ const FeatureSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Feature", FeatureSchema);
+export default FeatureSchema;
