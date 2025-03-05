@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -14,9 +14,10 @@ import IconField from "./components/IconField";
 import UploadImages from "./components/UploadImages";
 
 const AddListing = () => {
-  const [formData, setFormData] = useState([]);
-  const [featuresData, setFeaturesData] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [featuresData, setFeaturesData] = useState({});
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -32,13 +33,27 @@ const AddListing = () => {
     }));
   };
 
+  const handleImageUploadComplete = (imageUrls) => {
+    setUploadedImageUrls(imageUrls);
+    setTriggerUploadImages(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const dataToSend = { ...formData, features: featuresData };
-      await apiRequest.post("/car-listing/create-listing", dataToSend);
+
+    if (uploadedImageUrls.length === 0) {
       setTriggerUploadImages(true);
-      toast.success("Create new vehicle listing successfully 👍");
+      return;
+    }
+
+    try {
+      const dataToSend = {
+        ...formData,
+        features: featuresData,
+        imageUrl: uploadedImageUrls,
+      };
+      await apiRequest.post("/car-listing/create-listing", dataToSend);
+      toast.success("Created new vehicle listing successfully 👍");
     } catch (error) {
       toast.error("Failed to add listing!");
     }
@@ -92,8 +107,8 @@ const AddListing = () => {
             </div>
             <Separator className="my-6" />
 
-            {/* Features List */}
-            <div className="">
+            {/* Features */}
+            <div>
               <h2 className="font-medium text-xl my-6">Features</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {features.features.map((item, index) => (
@@ -112,7 +127,10 @@ const AddListing = () => {
             <Separator className="my-6" />
 
             {/* Car Images */}
-            <UploadImages triggerUploadImages={triggerUploadImages} />
+            <UploadImages
+              triggerUploadImages={triggerUploadImages}
+              onUploadComplete={handleImageUploadComplete}
+            />
 
             <div className="mt-10 flex justify-end">
               <Button type="submit" className="bg-red-500">
