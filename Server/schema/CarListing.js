@@ -88,6 +88,10 @@ const carListingSchema = new mongoose.Schema({
         type: FeatureSchema,
         default: () => ({})
     },
+    imageUrl: {
+        type: [String],
+        default: []
+    },
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
         required: true 
