@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
 import IconField from "./components/IconField";
+import UploadImages from "./components/UploadImages";
 
 const AddListing = () => {
 
@@ -87,6 +88,8 @@ const AddListing = () => {
             </div>
             <Separator className="my-6"/>
             {/* Car Images  */}
+            <UploadImages />
+
             <div className="mt-10 flex justify-end">
               <Button type="submit"  className="bg-red-500">Submit</Button>
             </div>
