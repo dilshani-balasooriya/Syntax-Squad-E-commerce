@@ -84,3 +84,51 @@ export const GetUserCarListing = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetSingleCarListing = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const carListing = await CarListing.findById(id);
+
+    if (!carListing) {
+      return res.status(404).json({ error: "Car listing not found." });
+    }
+
+    return res.status(200).json(carListing);
+  } catch (error) {
+    return res.status(500).json({ error: "Server error, please try again later." });
+  }
+}
+
+export const EditCarListing = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const carListing = await CarListing.findById(id);
+
+    if (!carListing) {
+      return res.status(404).json({ error: "Car listing not found." });
+    }
+
+    if (carListing.userId.toString() !== userId) {
+      return res.status(403).json({ error: "Unauthorized to edit this listing." });
+    }
+
+    const updatedCarListing = await CarListing.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(200).json({
+      message: "Car listing updated successfully!",
+      updatedCarListing,
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: "Server error, please try again later." });
+  }
+}
+
+
