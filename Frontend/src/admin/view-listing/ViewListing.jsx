@@ -22,7 +22,7 @@ const ViewListing = () => {
   return (
     <div>
         <AdminHeader title={"View Listing"}/>
-        <div className="p-8 grid grid-row-2 md:grid-row-3 lg:grid-row-4 mt-7 gap-5">
+        <div className="p-8 grid grid-row-2 md:grid-row-3 lg:grid-row-4 mt-7 ml-3 gap-5">
             {carListings.map((item, index) => (
             <div key={index}>
               <CarItem car={item} />
