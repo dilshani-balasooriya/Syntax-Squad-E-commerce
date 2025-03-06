@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
 import IconField from "./components/IconField";
+import { BiLoaderAlt } from "react-icons/bi";
 import UploadImages from "./components/UploadImages";
 
 const AddListing = () => {
@@ -18,6 +19,7 @@ const AddListing = () => {
   const [featuresData, setFeaturesData] = useState({});
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
+  const [loader, setLoader]= useState(false);
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -40,9 +42,11 @@ const AddListing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
 
     if (uploadedImageUrls.length === 0) {
       setTriggerUploadImages(true);
+      setLoader(false);
       return;
     }
 
@@ -56,6 +60,8 @@ const AddListing = () => {
       toast.success("Created new vehicle listing successfully 👍");
     } catch (error) {
       toast.error("Failed to add listing!");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -130,11 +136,12 @@ const AddListing = () => {
             <UploadImages
               triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
+              setLoader={(v)=>setLoader(v)}
             />
 
             <div className="mt-10 flex justify-end">
-              <Button type="submit" className="bg-red-500">
-                Submit
+              <Button type="submit" disabled={loader} className="bg-red-500 hover:bg-red-600">
+                {!loader?'Submit': <BiLoaderAlt className='animate-spin text-lg'/>}
               </Button>
             </div>
           </form>

@@ -3,7 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
+const UploadImages = ({ triggerUploadImages, onUploadComplete, setLoader }) => {
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
@@ -24,6 +24,7 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
   };
 
   const UploadImageToServer = async () => {
+    setLoader(true);
     try {
       const uploadedUrls = await Promise.all(
         selectedFileList.map(async (file) => {
@@ -38,6 +39,8 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
       onUploadComplete(uploadedUrls);
     } catch (error) {
       console.error("Error uploading images:", error);
+    } finally {
+      setLoader(false);
     }
   };
 
