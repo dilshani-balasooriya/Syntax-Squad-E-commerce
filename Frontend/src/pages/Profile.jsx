@@ -11,7 +11,7 @@ const Profile = () => {
             <div className="flex justify-between items-center">
                 <h2 className='font-bold text-4xl'>My Listing</h2>
                 <Link to={'/admin'}>
-                    <Button>+ Add New Listing</Button>
+                    <Button>Go to dashboard</Button>
                 </Link>
             </div>
         </div>
