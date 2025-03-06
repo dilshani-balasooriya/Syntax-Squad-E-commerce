@@ -35,7 +35,7 @@ const AddListing = () => {
   const GetListingDetail = async () => {
     try {
       setLoader(true);
-    const response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`);
+    const response = await apiRequest.get(`/car-listing/get-single-car-listing/${recordId}`);
     const data = response.data;
     
     setFormData({
@@ -89,7 +89,7 @@ const AddListing = () => {
 
       if(mode === "edit"){
         response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`, dataToSend);
-        toast.success("Listing updated successfully!");
+        toast.success("Listing updated successfully 👍");
       } else {
 
         await apiRequest.post("/car-listing/create-listing", dataToSend);
