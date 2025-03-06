@@ -72,3 +72,15 @@ export const GetAllCarListing = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetUserCarListing = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userCarListings = await CarListing.find({ userId });
+    return res.status(200).json(userCarListings);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
