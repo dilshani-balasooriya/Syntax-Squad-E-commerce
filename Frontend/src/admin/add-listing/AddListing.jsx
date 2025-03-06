@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import IconField from "./components/IconField";
 import { BiLoaderAlt } from "react-icons/bi";
 import UploadImages from "./components/UploadImages";
+import { useSearchParams } from "react-router-dom";
 
 const AddListing = () => {
   const [formData, setFormData] = useState({});
@@ -20,6 +21,36 @@ const AddListing = () => {
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [loader, setLoader]= useState(false);
+  const [searchParams]=useSearchParams();
+
+  const mode=searchParams.get('mode');
+  const recordId=searchParams.get('id');
+
+  useEffect(()=>{
+    if(mode=='edit'){
+      GetListingDetail();
+    }
+  },[]);
+
+  const GetListingDetail = async () => {
+    try {
+      setLoader(true);
+      const response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`);
+      const data = response.data;
+
+      setFormData({
+        ...data,
+      });
+
+      setFeaturesData(data.features || {});
+      setUploadedImageUrls(data.imageUrl || []);
+
+    } catch (error) {
+      toast.error("Failed to update listing details!");
+    } finally {
+      setLoader(false);
+    }
+  }
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({

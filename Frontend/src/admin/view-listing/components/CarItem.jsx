@@ -5,47 +5,54 @@ import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
 import { GiGearStickPattern } from "react-icons/gi";
 import { LuFuel } from "react-icons/lu";
 import { TbBrandSpeedtest } from "react-icons/tb";
+import { Link } from "react-router-dom";
 
 const CarItem = ({ car }) => {
   return (
-    <div className="flex items-center rounded-xl bg-white cursor-pointer overflow-hidden w-[1200px]">
+    <div className="rounded-xl bg-white border hover:shadow-md cursor-pointer">
       <img
         src={car?.imageUrl[0]}
-        className="w-[280px] h-[200px] object-cover"
-        alt="Car"
+        width={"100%"}
+        height={250}
+        className="rounded-t-xl h-[180px] object-cover"
       />
-      <div className="p-3 flex-1">
-        <h2 className="font-semibold text-2xl text-gray-900">
+      <div className="p-4">
+        <h2 className="font-bold text-black text-lg mb-2">
           {car?.listingTitle}
         </h2>
-        <Separator className="my-2" style={{ width: '500px' }} />
-
-        <div className="flex mt-6 text-gray-600 text-sm">
-          <div className="flex flex-col items-center mr-8">
-            <LuFuel className="text-xl text-gray-700 mb-1" />
-            <span>{car?.mileage} Miles</span>
-          </div>
-
-          <div className="flex flex-col items-center mr-8">
-            <TbBrandSpeedtest className="text-xl text-gray-700 mb-1" />
-            <span>{car?.fuelType}</span>
-          </div>
-
+        <Separator />
+        <div className="grid md:grid-cols-3 mt-5 text-black">
           <div className="flex flex-col items-center">
-            <GiGearStickPattern className="text-xl text-gray-700 mb-1" />
-            <span>{car?.transmission}</span>
+            <LuFuel className="text-lg mb-2" />
+            <h2>{car?.mileage} Miles</h2>
           </div>
+          <div className="flex flex-col items-center">
+            <TbBrandSpeedtest className="text-lg mb-2" />
+            <h2>{car?.fuelType} </h2>
+          </div>
+          <div className="flex flex-col items-center">
+            <GiGearStickPattern className="text-lg mb-2" />
+            <h2>{car?.transmission} </h2>
+          </div>
+        </div>
+        <Separator className="my-2" />
+        <div className="flex items-center justify-between text-black">
+          <h2 className="font-bold text-xl">${car.sellingPrice}</h2>
         </div>
       </div>
 
-      <div className="p-2 rounded-lg flex flex-col gap-3 ml-auto mr-5">
-        <Button className="bg-green-700 hover:bg-green-600">
+      <Separator />
+
+      <div className="p-3 flex justify-evenly gap-8">
+        <Button className="bg-green-700 hover:bg-green-600 w-full">
           <FaEye />
         </Button>
-        <Button className="bg-yellow-500 hover:bg-yellow-400">
-          <FaEdit />
-        </Button>
-        <Button variant="destructive">
+        <Link to={`/add-listing?mode=edit&id=${car?._id}`} className="w-full">
+          <Button className="w-full bg-yellow-400 hover:bg-yellow-500">
+            <FaEdit />
+          </Button>
+        </Link>
+        <Button variant="destructive" className='w-full'>
           <FaTrashAlt />
         </Button>
       </div>
