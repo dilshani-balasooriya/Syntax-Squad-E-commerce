@@ -8,6 +8,7 @@ import AdminLayout from "./admin/AdminLayout";
 import AddListing from "./admin/add-listing/AddListing";
 import Dashboard from "./admin/dashboard/Dashboard";
 import Users from "./admin/users/Users";
+import ViewListing from "./admin/view-listing/ViewListing";
 
 const App = () => {
 
@@ -41,6 +42,10 @@ const App = () => {
         {
           path:'add-listing',
           element: <AddListing/>
+        },
+        {
+          path:'view-listing',
+          element: <ViewListing/>
         },
         {
           path:'users',
