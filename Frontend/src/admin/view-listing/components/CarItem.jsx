@@ -45,7 +45,7 @@ const CarItem = ({ car }) => {
         <Button className="bg-yellow-500 hover:bg-yellow-400">
           <FaEdit />
         </Button>
-        <Button className="bg-red-600 hover:bg-red-500">
+        <Button variant="destructive">
           <FaTrashAlt />
         </Button>
       </div>
