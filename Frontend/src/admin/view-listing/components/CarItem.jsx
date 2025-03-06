@@ -47,7 +47,7 @@ const CarItem = ({ car }) => {
         <Button className="bg-green-700 hover:bg-green-600 w-full">
           <FaEye />
         </Button>
-        <Link to={`/add-listing?mode=edit&id=${car?._id}`} className="w-full">
+        <Link to={`/admin/add-listing?mode=edit&id=${car?._id}`} className="w-full">
           <Button className="w-full bg-yellow-400 hover:bg-yellow-500">
             <FaEdit />
           </Button>

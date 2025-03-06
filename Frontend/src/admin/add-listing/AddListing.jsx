@@ -26,24 +26,23 @@ const AddListing = () => {
   const mode=searchParams.get('mode');
   const recordId=searchParams.get('id');
 
-  useEffect(()=>{
-    if(mode=='edit'){
+  useEffect(() => {
+    if (mode === "edit" && recordId) {
       GetListingDetail();
     }
-  },[]);
+  }, [mode, recordId]);
 
   const GetListingDetail = async () => {
     try {
       setLoader(true);
-      const response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`);
-      const data = response.data;
-
-      setFormData({
-        ...data,
-      });
-
-      setFeaturesData(data.features || {});
-      setUploadedImageUrls(data.imageUrl || []);
+    const response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`);
+    const data = response.data;
+    
+    setFormData({
+      ...data,
+    });
+    setFeaturesData(data.features || {});
+    setUploadedImageUrls(data.imageUrl || []);
 
     } catch (error) {
       toast.error("Failed to update listing details!");
@@ -87,8 +86,16 @@ const AddListing = () => {
         features: featuresData,
         imageUrl: uploadedImageUrls,
       };
-      await apiRequest.post("/car-listing/create-listing", dataToSend);
-      toast.success("Created new vehicle listing successfully 👍");
+
+      if(mode === "edit"){
+        response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`, dataToSend);
+        toast.success("Listing updated successfully!");
+      } else {
+
+        await apiRequest.post("/car-listing/create-listing", dataToSend);
+        toast.success("Created new vehicle listing successfully 👍");
+      }
+
     } catch (error) {
       toast.error("Failed to add listing!");
     } finally {
