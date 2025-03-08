@@ -186,6 +186,8 @@ const AddListing = () => {
               triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
               setLoader={(v) => setLoader(v)}
+              carInfo={carInfo}
+              mode={mode}
             />
 
             <div className="mt-10 flex justify-end">
