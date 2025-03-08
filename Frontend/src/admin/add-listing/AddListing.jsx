@@ -21,6 +21,7 @@ const AddListing = () => {
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [carInfo,setCarInfo]=useState();
   const [searchParams] = useSearchParams();
 
   const mode = searchParams.get("mode");
@@ -40,11 +41,14 @@ const AddListing = () => {
       );
       const data = response.data;
 
-      setFormData({
-        ...data,
-      });
-      setFeaturesData(data.features || {});
-      setUploadedImageUrls(data.imageUrl || []);
+      setCarInfo(data);
+      setFeaturesData(data.features);
+
+      // setFormData({
+      //   ...data,
+      // });
+      // setFeaturesData(data.features);
+      // setUploadedImageUrls(data.imageUrl);
     } catch (error) {
       toast.error("Failed to update listing details!");
     } finally {
@@ -135,18 +139,21 @@ const AddListing = () => {
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : item.fieldType === "dropdown" ? (
                       <DropdownField
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : item.fieldType === "textarea" ? (
                       <TextAreaField
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : null}
                   </div>
