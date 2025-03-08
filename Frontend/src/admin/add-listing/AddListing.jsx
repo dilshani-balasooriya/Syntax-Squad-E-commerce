@@ -43,12 +43,6 @@ const AddListing = () => {
 
       setCarInfo(data);
       setFeaturesData(data.features);
-
-      // setFormData({
-      //   ...data,
-      // });
-      // setFeaturesData(data.features);
-      // setUploadedImageUrls(data.imageUrl);
     } catch (error) {
       toast.error("Failed to update listing details!");
     } finally {
