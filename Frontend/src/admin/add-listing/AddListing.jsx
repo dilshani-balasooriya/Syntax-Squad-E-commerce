@@ -20,11 +20,11 @@ const AddListing = () => {
   const [featuresData, setFeaturesData] = useState({});
   const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
-  const [loader, setLoader]= useState(false);
-  const [searchParams]=useSearchParams();
+  const [loader, setLoader] = useState(false);
+  const [searchParams] = useSearchParams();
 
-  const mode=searchParams.get('mode');
-  const recordId=searchParams.get('id');
+  const mode = searchParams.get("mode");
+  const recordId = searchParams.get("id");
 
   useEffect(() => {
     if (mode === "edit" && recordId) {
@@ -35,21 +35,22 @@ const AddListing = () => {
   const GetListingDetail = async () => {
     try {
       setLoader(true);
-    const response = await apiRequest.get(`/car-listing/get-single-car-listing/${recordId}`);
-    const data = response.data;
-    
-    setFormData({
-      ...data,
-    });
-    setFeaturesData(data.features || {});
-    setUploadedImageUrls(data.imageUrl || []);
+      const response = await apiRequest.get(
+        `/car-listing/get-single-car-listing/${recordId}`
+      );
+      const data = response.data;
 
+      setFormData({
+        ...data,
+      });
+      setFeaturesData(data.features || {});
+      setUploadedImageUrls(data.imageUrl || []);
     } catch (error) {
       toast.error("Failed to update listing details!");
     } finally {
       setLoader(false);
     }
-  }
+  };
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -87,15 +88,16 @@ const AddListing = () => {
         imageUrl: uploadedImageUrls,
       };
 
-      if(mode === "edit"){
-        response = await apiRequest.put(`/car-listing/edit-car-list/${recordId}`, dataToSend);
+      if (mode === "edit") {
+        response = await apiRequest.put(
+          `/car-listing/edit-car-list/${recordId}`,
+          dataToSend
+        );
         toast.success("Listing updated successfully 👍");
       } else {
-
         await apiRequest.post("/car-listing/create-listing", dataToSend);
         toast.success("Created new vehicle listing successfully 👍");
       }
-
     } catch (error) {
       toast.error("Failed to add listing!");
     } finally {
@@ -107,9 +109,11 @@ const AddListing = () => {
     <>
       <Toaster />
       <div>
-        <AdminHeader title={"Add Listing"} />
+        <AdminHeader title={mode === "edit" ? "Edit Listing" : "Add Listing"} />
         <div className="px-10 md:px-20 my-10">
-          <h2 className="font-bold text-4xl">Add New Listing</h2>
+          <h2 className="font-bold text-4xl">
+            {mode === "edit" ? "Edit Listing" : "Add New Listing"}
+          </h2>
           <form
             className="p-10 border rounded-xl mt-10"
             onSubmit={handleSubmit}
@@ -174,12 +178,20 @@ const AddListing = () => {
             <UploadImages
               triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
-              setLoader={(v)=>setLoader(v)}
+              setLoader={(v) => setLoader(v)}
             />
 
             <div className="mt-10 flex justify-end">
-              <Button type="submit" disabled={loader} className="bg-red-500 hover:bg-red-600">
-                {!loader?'Submit': <BiLoaderAlt className='animate-spin text-lg'/>}
+              <Button
+                type="submit"
+                disabled={loader}
+                className="bg-red-500 hover:bg-red-600"
+              >
+                {!loader ? (
+                  "Submit"
+                ) : (
+                  <BiLoaderAlt className="animate-spin text-lg" />
+                )}
               </Button>
             </div>
           </form>
