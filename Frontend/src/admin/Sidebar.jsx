@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BarChart2, Menu, ShoppingBag, Users } from "lucide-react";
+import { BarChart2, Menu, ShoppingBag, Users, Columns2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
   { name: "Dashboard", icon: BarChart2, color: "#6366f1", href: "/admin/dashboard" },
+  { name: "View Listing", icon: Columns2, color: "#10B981", href: "/admin/view-listing",},
   { name: "Add Listing", icon: ShoppingBag, color: "#8B5CF6", href: "/admin/add-listing",},
   { name: "Users", icon: Users, color: "#EC4899", href: "/admin/users" },
 ];
