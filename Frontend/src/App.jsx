@@ -9,6 +9,7 @@ import AddListing from "./admin/add-listing/AddListing";
 import Dashboard from "./admin/dashboard/Dashboard";
 import Users from "./admin/users/Users";
 import ViewListing from "./admin/view-listing/ViewListing";
+import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
 
 const App = () => {
 
@@ -46,6 +47,10 @@ const App = () => {
         {
           path:'view-listing',
           element: <ViewListing/>
+        },
+        {
+          path:'view-single-listing',
+          element: <ViewSingleListing/>
         },
         {
           path:'users',

@@ -44,9 +44,11 @@ const CarItem = ({ car }) => {
       <Separator />
 
       <div className="p-3 flex justify-evenly gap-8">
-        <Button className="bg-green-700 hover:bg-green-600 w-full">
-          <FaEye />
-        </Button>
+        <Link to={`/admin/view-single-listing`} className="w-full">
+          <Button className="bg-green-700 hover:bg-green-600 w-full">
+            <FaEye />
+          </Button>
+        </Link>
         <Link to={`/admin/add-listing?mode=edit&id=${car?._id}`} className="w-full">
           <Button className="w-full bg-yellow-400 hover:bg-yellow-500">
             <FaEdit />
