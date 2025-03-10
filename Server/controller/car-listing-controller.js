@@ -103,7 +103,9 @@ export const GetSingleCarListing = async (req, res) => {
 
 export const EditCarListing = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id;
+  // const userId = req.user?._id;
+
+  // console.log(userId);
 
   try {
     const carListing = await CarListing.findById(id);
@@ -112,9 +114,9 @@ export const EditCarListing = async (req, res) => {
       return res.status(404).json({ error: "Car listing not found." });
     }
 
-    if (carListing.userId.toString() !== userId) {
-      return res.status(403).json({ error: "Unauthorized to edit this listing." });
-    }
+    // if (carListing.userId.toString() !== userId) {
+    //   return res.status(403).json({ error: "Unauthorized to edit this listing." });
+    // }
 
     const updatedCarListing = await CarListing.findByIdAndUpdate(id, req.body, {
       new: true,
