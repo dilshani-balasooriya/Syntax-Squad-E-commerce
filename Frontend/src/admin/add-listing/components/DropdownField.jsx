@@ -13,7 +13,8 @@ const DropdownField = ({ item, handleInputChange, carInfo }) => {
       <Select
         onValueChange={(value) => handleInputChange(item.name, value)}
         required={item.required}
-        defaultValue={carInfo?.[item?.name]}
+        // defaultValue={carInfo?.[item?.name]}
+        value={carInfo?.[item?.name]}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder={carInfo?.[item?.name]?carInfo?.[item?.name]:item.label} />

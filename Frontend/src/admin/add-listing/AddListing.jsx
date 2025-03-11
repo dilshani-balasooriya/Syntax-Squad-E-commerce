@@ -18,8 +18,8 @@ import { useSearchParams } from "react-router-dom";
 const AddListing = () => {
   const [formData, setFormData] = useState({});
   const [featuresData, setFeaturesData] = useState({});
-  const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
+  const [existingImageUrls, setExistingImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
   const [carInfo,setCarInfo]=useState();
   const [searchParams] = useSearchParams();
@@ -33,6 +33,12 @@ const AddListing = () => {
     }
   }, [mode, recordId]);
 
+  useEffect(() => {
+    if (mode === "edit" && carInfo?.imageUrl?.length) {
+      setExistingImageUrls(carInfo.imageUrl);
+    }
+  }, [carInfo, mode]);
+
   const GetListingDetail = async () => {
     try {
       setLoader(true);
@@ -44,6 +50,7 @@ const AddListing = () => {
       setCarInfo(data);
       setFeaturesData(data.features);
     } catch (error) {
+      console.log(error);
       toast.error("Failed to update listing details!");
     } finally {
       setLoader(false);
@@ -65,29 +72,22 @@ const AddListing = () => {
   };
 
   const handleImageUploadComplete = (imageUrls) => {
-    setUploadedImageUrls(imageUrls);
-    setTriggerUploadImages(false);
+    // setUploadedImageUrls(imageUrls);
+    setUploadedImageUrls((prev) => [...prev, ...imageUrls]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-
-    if (uploadedImageUrls.length === 0) {
-      setTriggerUploadImages(true);
-      setLoader(false);
-      return;
-    }
-
     try {
       const dataToSend = {
         ...formData,
         features: featuresData,
-        imageUrl: uploadedImageUrls,
+        imageUrl: [...existingImageUrls, ...uploadedImageUrls],
       };
 
       if (mode === "edit") {
-        response = await apiRequest.put(
+        await apiRequest.put(
           `/car-listing/edit-car-list/${recordId}`,
           dataToSend
         );
@@ -97,6 +97,7 @@ const AddListing = () => {
         toast.success("Created new vehicle listing successfully 👍");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Failed to add listing!");
     } finally {
       setLoader(false);
@@ -177,7 +178,6 @@ const AddListing = () => {
 
             {/* Car Images */}
             <UploadImages
-              triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
               setLoader={(v) => setLoader(v)}
               carInfo={carInfo}

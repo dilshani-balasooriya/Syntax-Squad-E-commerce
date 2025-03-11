@@ -3,10 +3,11 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const UploadImages = ({ triggerUploadImages, onUploadComplete, setLoader, carInfo, mode }) => {
+const UploadImages = ({ onUploadComplete, setLoader, carInfo, mode }) => {
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [EditCarImageList,setEditCarImageList]=useState([]);
+  
 
   useEffect(() => {
     if (mode === "edit" && carInfo?.imageUrl?.length) {
@@ -15,10 +16,11 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete, setLoader, carInf
   }, [carInfo, mode]);  
 
   useEffect(() => {
-    if (triggerUploadImages) {
+    if (selectedFileList.length > 0) {
       UploadImageToServer();
     }
-  }, [triggerUploadImages]);
+  }, [selectedFileList]);
+
 
   const onFileSelected = (event) => {
     const files = event.target.files;
@@ -27,7 +29,12 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete, setLoader, carInf
   };
 
   const onImageRemove = (image) => {
-    setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    // setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    if (existingImageUrls.includes(image)) {
+      setExistingImageUrls(existingImageUrls.filter((img) => img !== image));
+    } else {
+      setSelectedFileList(selectedFileList.filter((img) => img !== image));
+    }
   };
 
   const UploadImageToServer = async () => {
@@ -45,7 +52,7 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete, setLoader, carInf
       setUploadedImageUrls(uploadedUrls);
       onUploadComplete(uploadedUrls);
     } catch (error) {
-      console.error("Error uploading images:", error);
+      console.log("Error uploading images:", error);
     } finally {
       setLoader(false);
     }
