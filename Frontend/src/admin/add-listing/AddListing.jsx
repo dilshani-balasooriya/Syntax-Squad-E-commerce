@@ -18,7 +18,6 @@ import { useSearchParams } from "react-router-dom";
 const AddListing = () => {
   const [formData, setFormData] = useState({});
   const [featuresData, setFeaturesData] = useState({});
-  const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
   const [carInfo,setCarInfo]=useState();
@@ -44,6 +43,7 @@ const AddListing = () => {
       setCarInfo(data);
       setFeaturesData(data.features);
     } catch (error) {
+      console.log(error);
       toast.error("Failed to update listing details!");
     } finally {
       setLoader(false);
@@ -66,19 +66,11 @@ const AddListing = () => {
 
   const handleImageUploadComplete = (imageUrls) => {
     setUploadedImageUrls(imageUrls);
-    setTriggerUploadImages(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
-
-    if (uploadedImageUrls.length === 0) {
-      setTriggerUploadImages(true);
-      setLoader(false);
-      return;
-    }
-
     try {
       const dataToSend = {
         ...formData,
@@ -87,7 +79,7 @@ const AddListing = () => {
       };
 
       if (mode === "edit") {
-        response = await apiRequest.put(
+        await apiRequest.put(
           `/car-listing/edit-car-list/${recordId}`,
           dataToSend
         );
@@ -97,6 +89,7 @@ const AddListing = () => {
         toast.success("Created new vehicle listing successfully 👍");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Failed to add listing!");
     } finally {
       setLoader(false);
@@ -177,7 +170,7 @@ const AddListing = () => {
 
             {/* Car Images */}
             <UploadImages
-              triggerUploadImages={triggerUploadImages}
+              // triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
               setLoader={(v) => setLoader(v)}
               carInfo={carInfo}
