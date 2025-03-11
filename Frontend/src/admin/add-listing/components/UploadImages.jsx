@@ -7,7 +7,6 @@ const UploadImages = ({ onUploadComplete, setLoader, carInfo, mode }) => {
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [EditCarImageList,setEditCarImageList]=useState([]);
-  // const [combinedImageUrls, setCombinedImageUrls] = useState([]);
   
 
   useEffect(() => {
@@ -30,7 +29,12 @@ const UploadImages = ({ onUploadComplete, setLoader, carInfo, mode }) => {
   };
 
   const onImageRemove = (image) => {
-    setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    // setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    if (existingImageUrls.includes(image)) {
+      setExistingImageUrls(existingImageUrls.filter((img) => img !== image));
+    } else {
+      setSelectedFileList(selectedFileList.filter((img) => img !== image));
+    }
   };
 
   const UploadImageToServer = async () => {
@@ -53,8 +57,6 @@ const UploadImages = ({ onUploadComplete, setLoader, carInfo, mode }) => {
       setLoader(false);
     }
   };
-
-  console.log(EditCarImageList)
 
   return (
     <div>

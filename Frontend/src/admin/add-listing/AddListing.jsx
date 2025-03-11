@@ -19,6 +19,7 @@ const AddListing = () => {
   const [formData, setFormData] = useState({});
   const [featuresData, setFeaturesData] = useState({});
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
+  const [existingImageUrls, setExistingImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
   const [carInfo,setCarInfo]=useState();
   const [searchParams] = useSearchParams();
@@ -31,6 +32,12 @@ const AddListing = () => {
       GetListingDetail();
     }
   }, [mode, recordId]);
+
+  useEffect(() => {
+    if (mode === "edit" && carInfo?.imageUrl?.length) {
+      setExistingImageUrls(carInfo.imageUrl);
+    }
+  }, [carInfo, mode]);
 
   const GetListingDetail = async () => {
     try {
@@ -65,7 +72,8 @@ const AddListing = () => {
   };
 
   const handleImageUploadComplete = (imageUrls) => {
-    setUploadedImageUrls(imageUrls);
+    // setUploadedImageUrls(imageUrls);
+    setUploadedImageUrls((prev) => [...prev, ...imageUrls]);
   };
 
   const handleSubmit = async (e) => {
@@ -75,7 +83,7 @@ const AddListing = () => {
       const dataToSend = {
         ...formData,
         features: featuresData,
-        imageUrl: uploadedImageUrls,
+        imageUrl: [...existingImageUrls, ...uploadedImageUrls],
       };
 
       if (mode === "edit") {
@@ -170,7 +178,6 @@ const AddListing = () => {
 
             {/* Car Images */}
             <UploadImages
-              // triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
               setLoader={(v) => setLoader(v)}
               carInfo={carInfo}
