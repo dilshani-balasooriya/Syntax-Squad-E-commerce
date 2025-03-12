@@ -12,8 +12,6 @@ import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
 import SearchByCategory from "./search/[category]/SearchByCategory";
 import SearchByOptions from "./search/SearchByOptions";
 import ListingDetail from "./listing-details/[id]/ListingDetail";
-import Register from "./components/Register";
-import Login from "./components/Login";
 
 const App = () => {
 
@@ -21,14 +19,6 @@ const App = () => {
     {
       path: "/",
       element: <Home />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
     },
     {
       path:'/contact',

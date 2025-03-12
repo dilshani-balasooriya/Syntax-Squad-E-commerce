@@ -2,22 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import Login from "./Login";
 import UserNavigationPanel from "./UserNavigationPanel";
+import Register from "./Register";
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-
 
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem("token");
       setIsAuthenticated(!!token);
     };
-  
+
     checkAuth();
     window.addEventListener("storage", checkAuth);
-  
+
     return () => {
       window.removeEventListener("storage", checkAuth);
     };
@@ -27,10 +28,18 @@ const Header = () => {
     <div className="flex justify-between items-center shadow-sm p-5 relative">
       <img src="/logo.svg" width={150} height={100} alt="Logo" />
       <ul className="hidden md:flex gap-16">
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">Home</li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">Search</li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">New</li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">Preowned</li>
+        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+          Home
+        </li>
+        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+          Search
+        </li>
+        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+          New
+        </li>
+        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+          Preowned
+        </li>
       </ul>
 
       <div className="relative">
@@ -44,13 +53,28 @@ const Header = () => {
                 className="w-12 h-12 object-cover rounded-full"
               />
             </button>
-            {isProfileMenuOpen && (
-              <UserNavigationPanel/>
-            )}
+            {isProfileMenuOpen && <UserNavigationPanel />}
           </div>
         )}
 
-        {isLoginOpen && <Login onClose={() => setIsLoginOpen(false)} />}
+        {isLoginOpen && (
+          <Login
+            onClose={() => setIsLoginOpen(false)}
+            openRegister={() => {
+              setIsLoginOpen(false);
+              setIsRegisterOpen(true);
+            }}
+          />
+        )}
+        {isRegisterOpen && (
+          <Register
+            onClose={() => setIsRegisterOpen(false)}
+            openLogin={() => {
+              setIsRegisterOpen(false);
+              setIsLoginOpen(true);
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { FaTimesCircle } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
-const Register = () => {
+const Register = ({ onClose, openLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePassword = () => {
@@ -15,7 +15,10 @@ const Register = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-10 bg-[rgba(0,0,0,0.5)]">
       <div className="bg-white rounded-lg shadow-lg w-96 p-8 h-auto min-h-[450px] flex flex-col justify-center relative">
-        <FaTimesCircle className="absolute top-4 right-4 cursor-pointer" />
+        <FaTimesCircle
+          className="absolute top-4 right-4 cursor-pointer"
+          onClick={onClose}
+        />
         <h2 className="text-xl font-semibold text-center mb-8 mt-4">
           Sign up to Car Marketplace
         </h2>
@@ -61,7 +64,7 @@ const Register = () => {
 
         <p className="text-center text-sm text-black mt-6">
           Already a member?{" "}
-          <Link to={"/login"} className="underline font-medium">
+          <Link onClick={openLogin} className="underline font-medium">
             Sign In
           </Link>
         </p>

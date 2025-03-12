@@ -7,7 +7,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import apiRequest from "@/lib/apiRequest";
 
-const Login = ({ onClose }) => {
+const Login = ({ onClose, openRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -107,7 +107,7 @@ const Login = ({ onClose }) => {
 
           <p className="text-center text-sm text-black mt-6">
             Don’t have an account?{" "}
-            <Link to={"/register"} className="underline font-medium">
+            <Link onClick={openRegister} className="underline font-medium">
               Sign Up
             </Link>
           </p>
