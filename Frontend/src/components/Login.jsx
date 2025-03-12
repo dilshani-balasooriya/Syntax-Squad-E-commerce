@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { FaTimesCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
@@ -11,6 +11,8 @@ const Login = ({ onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  let navigate = useNavigate();
 
   const togglePassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -22,15 +24,18 @@ const Login = ({ onClose }) => {
         email,
         password,
       });
-  
+
       localStorage.setItem("token", res.data.token);
-      toast.success("Login successful!");
+
+      onClose();
+      navigate("/");
+
+      window.dispatchEvent(new Event("storage"));
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
     }
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
