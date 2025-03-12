@@ -12,6 +12,7 @@ import ViewListing from "./admin/view-listing/ViewListing";
 import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
 import SearchByCategory from "./search/[category]/SearchByCategory";
 import SearchByOptions from "./search/SearchByOptions";
+import ListingDetail from "./listing-details/[id]/ListingDetail";
 
 const App = () => {
 
@@ -41,6 +42,10 @@ const App = () => {
     {
       path:'/search/:category',
       element:<SearchByCategory/>
+    },
+    {
+      path:'/listing-details/:id',
+      element:<ListingDetail/>
     },
     {
       path:'/admin',
