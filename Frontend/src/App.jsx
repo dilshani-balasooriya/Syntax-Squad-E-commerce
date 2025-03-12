@@ -10,6 +10,7 @@ import Dashboard from "./admin/dashboard/Dashboard";
 import Users from "./admin/users/Users";
 import ViewListing from "./admin/view-listing/ViewListing";
 import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
+import SearchByCategory from "./search/[category]/SearchByCategory";
 
 const App = () => {
 
@@ -31,6 +32,10 @@ const App = () => {
     {
       path:'/profile',
       element:<Profile/>
+    },
+    {
+      path:'/search/:category',
+      element:<SearchByCategory/>
     },
     {
       path:'/admin',
