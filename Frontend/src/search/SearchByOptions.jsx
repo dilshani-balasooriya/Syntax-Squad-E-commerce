@@ -16,7 +16,6 @@ const SearchByOptions = () => {
     const GetCarList = async () => {
         try {
             const response = await apiRequest.get(`/car-listing/search?condition=${condition || ''}&make=${make || ''}&sellingPrice=${price || ''}`);
-            console.log(response)
             if (response.status !== 200) {
                 console.log("Failed to fetch car listings.");
               }
