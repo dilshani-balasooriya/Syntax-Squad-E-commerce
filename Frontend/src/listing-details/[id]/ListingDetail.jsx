@@ -7,6 +7,7 @@ import ImageGallery from '../components/ImageGallery';
 import Description from '../components/Description';
 import Features from '../components/Features';
 import Pricing from '../components/Pricing';
+import Specification from '../components/Specification';
 
 const ListingDetail = () => {
 
@@ -49,6 +50,7 @@ const ListingDetail = () => {
                 {/* Right  */}
                 <div>
                     <Pricing carDetail={carDetail} />
+                    <Specification carDetail={carDetail} />
                 </div>
             </div>
 
