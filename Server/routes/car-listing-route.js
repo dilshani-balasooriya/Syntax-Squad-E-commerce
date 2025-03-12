@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/get-all-listing', GetAllCarListing);
 router.get('/get-user-listing', verifyToken, GetUserCarListing);
-router.get('/get-single-car-listing/:id', verifyToken, GetSingleCarListing);
+router.get('/get-single-car-listing/:id', GetSingleCarListing);
 router.get('/get-listings-by-category/:category', GetListingsByCategory);
 router.get('/search', SearchCarListings);
 router.post('/create-listing', verifyToken, CreateCarListing);
