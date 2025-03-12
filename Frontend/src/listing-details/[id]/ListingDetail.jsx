@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import apiRequest from '@/lib/apiRequest';
 import ImageGallery from '../components/ImageGallery';
 import Description from '../components/Description';
+import Features from '../components/Features';
 
 const ListingDetail = () => {
 
@@ -41,6 +42,7 @@ const ListingDetail = () => {
                 <div className="md:col-span-2">
                     <ImageGallery carDetail={carDetail}/>
                     <Description carDetail={carDetail} />
+                    <Features features={carDetail?.features} />
                 </div>
 
                 {/* Right  */}
