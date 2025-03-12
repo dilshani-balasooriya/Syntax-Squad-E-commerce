@@ -4,6 +4,7 @@ import DetailHeader from '../components/DetailHeader';
 import { useParams } from 'react-router-dom';
 import apiRequest from '@/lib/apiRequest';
 import ImageGallery from '../components/ImageGallery';
+import Description from '../components/Description';
 
 const ListingDetail = () => {
 
@@ -39,6 +40,7 @@ const ListingDetail = () => {
                 {/* Left  */}
                 <div className="md:col-span-2">
                     <ImageGallery carDetail={carDetail}/>
+                    <Description carDetail={carDetail} />
                 </div>
 
                 {/* Right  */}
