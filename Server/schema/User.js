@@ -4,11 +4,6 @@ let profile_imgs_name_list = ["Garfield", "Tinkerbell", "Annie", "Loki", "Cleo",
 let profile_imgs_collections_list = ["notionists-neutral", "adventurer-neutral", "fun-emoji"];
 
 const userSchema = mongoose.Schema({
-    // clerkId: {
-    //     type: String,
-    //     required: true,
-    //     unique: true
-    // },
     fullname: {
         type: String,
         required: true
@@ -26,10 +21,6 @@ const userSchema = mongoose.Schema({
         type: String, 
         default: "user" 
     },
-    // google_auth: {
-    //     type: Boolean,
-    //     default: false
-    // },
     profile_img: {
         type: String,
         default: () => {
