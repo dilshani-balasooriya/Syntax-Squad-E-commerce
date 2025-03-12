@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import DetailHeader from '../components/DetailHeader';
 import { useParams } from 'react-router-dom';
 import apiRequest from '@/lib/apiRequest';
+import ImageGallery from '../components/ImageGallery';
 
 const ListingDetail = () => {
 
@@ -37,7 +38,7 @@ const ListingDetail = () => {
             <div className='grid grid-cols-1 md:grid-cols-3 w-full mt-10 gap-5'>
                 {/* Left  */}
                 <div className="md:col-span-2">
-                    
+                    <ImageGallery carDetail={carDetail}/>
                 </div>
 
                 {/* Right  */}
