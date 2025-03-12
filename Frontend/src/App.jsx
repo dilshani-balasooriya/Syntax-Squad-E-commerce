@@ -11,6 +11,7 @@ import Users from "./admin/users/Users";
 import ViewListing from "./admin/view-listing/ViewListing";
 import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
 import SearchByCategory from "./search/[category]/SearchByCategory";
+import SearchByOptions from "./search/SearchByOptions";
 
 const App = () => {
 
@@ -32,6 +33,10 @@ const App = () => {
     {
       path:'/profile',
       element:<Profile/>
+    },
+    {
+      path:'/search',
+      element:<SearchByOptions/>
     },
     {
       path:'/search/:category',
