@@ -148,3 +148,32 @@ export const GetListingsByCategory = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const SearchCarListings = async (req, res) => {
+  const { condition, make, sellingPrice } = req.query;
+
+  let filter = {};
+
+  if (condition && condition !== "undefined") {
+    filter.condition = condition;
+  }
+  if (make && make !== "undefined") {
+    filter.make = make;
+  }
+  if (
+    sellingPrice &&
+    sellingPrice !== "undefined" &&
+    !isNaN(parseFloat(sellingPrice))
+  ) {
+    filter.sellingPrice = parseFloat(sellingPrice);
+  }
+
+  try {
+    const carListings = await CarListing.find(filter);
+    return res.status(200).json(carListings);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
