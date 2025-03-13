@@ -6,6 +6,7 @@ import DetailHeader from "./components/DetailHeader";
 import ImageGallery from "./components/ImageGallery";
 import Description from "./components/Description";
 import Features from "./components/Features";
+import Pricing from "./components/Pricing";
 
 const ViewSingleListing = () => {
   const { id } = useParams();
@@ -41,7 +42,9 @@ const ViewSingleListing = () => {
             <Description carDetail={carDetail} />
             <Features features={carDetail?.features} />
           </div>
-          <div className=""></div>
+          <div>
+            <Pricing carDetail={carDetail}/>
+          </div>
         </div>
       </div>
     </div>
