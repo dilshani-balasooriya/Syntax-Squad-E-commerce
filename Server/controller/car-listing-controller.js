@@ -50,12 +50,13 @@ export const CreateCarListing = async (req, res) => {
       listingDescription,
       features,
       imageUrl,
-      userId: req.user.id,
+      userId: req.user._id,
     });
 
     await newCarListing.save();
     return res.status(201).json("Save listing successfully!");
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .json({ error: "Server error, please try again later." });
@@ -75,7 +76,7 @@ export const GetAllCarListing = async (req, res) => {
 
 export const GetUserCarListing = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const userCarListings = await CarListing.find({ userId });
     return res.status(200).json(userCarListings);
   } catch (error) {
