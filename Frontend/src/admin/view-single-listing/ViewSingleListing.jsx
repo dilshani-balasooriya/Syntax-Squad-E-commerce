@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import { useParams } from "react-router-dom";
 import apiRequest from "@/lib/apiRequest";
+import DetailHeader from "./components/DetailHeader";
 
 const ViewSingleListing = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const ViewSingleListing = () => {
     <div>
       <AdminHeader title={"Signal View Listing"} />
       <div className="p-10 md:px-20">
-        
+        <DetailHeader carDetail={carDetail}/>
       </div>
     </div>
   );
