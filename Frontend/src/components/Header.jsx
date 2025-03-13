@@ -6,6 +6,7 @@ import Register from "./Register";
 import AuthContext from "@/context/AuthContext";
 import apiRequest from "@/lib/apiRequest";
 import { jwtDecode } from "jwt-decode";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -36,17 +37,19 @@ const Header = () => {
     <div className="flex justify-between items-center shadow-sm p-5 relative">
       <img src="/logo.svg" width={150} height={100} alt="Logo" />
       <ul className="hidden md:flex gap-16">
+        <NavLink to={'/'}>
+          <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+            Home
+          </li>
+        </NavLink>
         <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Home
+          Vehicles
         </li>
         <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Search
+          News
         </li>
         <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          New
-        </li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Preowned
+          Contact us
         </li>
       </ul>
 
