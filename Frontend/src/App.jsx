@@ -12,6 +12,7 @@ import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
 import SearchByCategory from "./search/[category]/SearchByCategory";
 import SearchByOptions from "./search/SearchByOptions";
 import ListingDetail from "./listing-details/[id]/ListingDetail";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
 
@@ -69,7 +70,9 @@ const App = () => {
   ]);
 
   return (
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   )
 };
 

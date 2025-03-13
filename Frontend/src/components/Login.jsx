@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import { FaTimesCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,11 +6,14 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import apiRequest from "@/lib/apiRequest";
+import AuthContext from "@/context/AuthContext";
 
 const Login = ({ onClose, openRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const { setToken } = useContext(AuthContext);
 
   let navigate = useNavigate();
 
@@ -26,6 +29,8 @@ const Login = ({ onClose, openRegister }) => {
       });
 
       localStorage.setItem("token", res.data.token);
+      setToken(res.data.token);
+
 
       onClose();
       navigate("/");
