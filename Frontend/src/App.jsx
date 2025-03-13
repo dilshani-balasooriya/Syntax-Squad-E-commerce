@@ -26,7 +26,7 @@ const App = () => {
       element:<Contact/>
     },
     {
-      path:'/profile',
+      path:'/profile/:id',
       element:<Profile/>
     },
     {
