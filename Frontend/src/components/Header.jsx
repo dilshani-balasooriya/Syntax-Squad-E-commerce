@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button } from "./ui/button";
 import Login from "./Login";
 import UserNavigationPanel from "./UserNavigationPanel";
 import Register from "./Register";
+import AuthContext from "@/context/AuthContext";
+import apiRequest from "@/lib/apiRequest";
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [profileDetail, setProfileDetail] = useState();
+  const { token } = useContext(AuthContext);
 
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    };
+  useEffect(()=>{
+    GetProfile();
+  },[]);
 
-    checkAuth();
-    window.addEventListener("storage", checkAuth);
+  const GetProfile = async () => {
+    try {
 
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-    };
-  }, []);
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken._id;
+
+      const response = await apiRequest.get(`/auth/get-profile/${userId}`);
+      const data = response.data;
+      setProfileDetail(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex justify-between items-center shadow-sm p-5 relative">
@@ -43,14 +51,14 @@ const Header = () => {
       </ul>
 
       <div className="relative">
-        {!isAuthenticated ? (
+        {!token ? (
           <Button onClick={() => setIsLoginOpen(true)}>Join</Button>
         ) : (
           <div className="relative">
             <button onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
               <img
-                src="https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg?semt=ais_hybrid"
-                className="w-12 h-12 object-cover rounded-full"
+                src={profileDetail?.profile_img}
+                className="w-12 h-12 object-cover rounded-full border-3 border-gray-300"
               />
             </button>
             {isProfileMenuOpen && <UserNavigationPanel />}
