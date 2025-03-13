@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import CarItem from "./components/CarItem";
 import apiRequest from "@/lib/apiRequest";
+import AuthContext from "@/context/AuthContext";
 
 const ViewListing = () => {
   const [carListings, setCarListings] = useState([]);
+  const { token } = useContext(AuthContext);
 
   const GetUserCarListing = async () => {
     try {
-      const response = await apiRequest.get("/car-listing/get-user-listing");
+      const response = await apiRequest.get("/car-listing/get-user-listing", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setCarListings(response.data);
     } catch (error) {
-      //   toast.error("Failed to load listings!");
+      console.error(error);
+      toast.error("Failed to load listings!");
     }
   };
 

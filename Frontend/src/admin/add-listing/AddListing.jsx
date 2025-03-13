@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -14,6 +14,7 @@ import IconField from "./components/IconField";
 import { BiLoaderAlt } from "react-icons/bi";
 import UploadImages from "./components/UploadImages";
 import { useSearchParams } from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 
 const AddListing = () => {
   const [formData, setFormData] = useState({});
@@ -21,8 +22,10 @@ const AddListing = () => {
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [existingImageUrls, setExistingImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [carInfo,setCarInfo]=useState();
+  const [carInfo, setCarInfo] = useState();
   const [searchParams] = useSearchParams();
+
+  const { token } = useContext(AuthContext);
 
   const mode = searchParams.get("mode");
   const recordId = searchParams.get("id");
@@ -86,14 +89,23 @@ const AddListing = () => {
         imageUrl: [...existingImageUrls, ...uploadedImageUrls],
       };
 
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
       if (mode === "edit") {
         await apiRequest.put(
           `/car-listing/edit-car-list/${recordId}`,
-          dataToSend
+          dataToSend,
+          config
         );
         toast.success("Listing updated successfully 👍");
       } else {
-        await apiRequest.post("/car-listing/create-listing", dataToSend);
+        await apiRequest.post(
+          "/car-listing/create-listing",
+          dataToSend,
+          config
+        );
         toast.success("Created new vehicle listing successfully 👍");
       }
     } catch (error) {

@@ -50,12 +50,13 @@ export const CreateCarListing = async (req, res) => {
       listingDescription,
       features,
       imageUrl,
-      userId: req.user.id,
+      userId: req.user._id,
     });
 
     await newCarListing.save();
     return res.status(201).json("Save listing successfully!");
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .json({ error: "Server error, please try again later." });
@@ -75,7 +76,7 @@ export const GetAllCarListing = async (req, res) => {
 
 export const GetUserCarListing = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const userCarListings = await CarListing.find({ userId });
     return res.status(200).json(userCarListings);
   } catch (error) {
@@ -97,15 +98,14 @@ export const GetSingleCarListing = async (req, res) => {
 
     return res.status(200).json(carListing);
   } catch (error) {
-    return res.status(500).json({ error: "Server error, please try again later." });
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
   }
-}
+};
 
 export const EditCarListing = async (req, res) => {
   const { id } = req.params;
-  // const userId = req.user?._id;
-
-  // console.log(userId);
 
   try {
     const carListing = await CarListing.findById(id);
@@ -113,10 +113,6 @@ export const EditCarListing = async (req, res) => {
     if (!carListing) {
       return res.status(404).json({ error: "Car listing not found." });
     }
-
-    // if (carListing.userId.toString() !== userId) {
-    //   return res.status(403).json({ error: "Unauthorized to edit this listing." });
-    // }
 
     const updatedCarListing = await CarListing.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -127,10 +123,58 @@ export const EditCarListing = async (req, res) => {
       message: "Car listing updated successfully!",
       updatedCarListing,
     });
-
   } catch (error) {
-    return res.status(500).json({ error: "Server error, please try again later." });
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
   }
-}
+};
 
+export const GetListingsByCategory = async (req, res) => {
+  const { category } = req.params;
 
+  try {
+    const carListings = await CarListing.find({ category });
+
+    if (carListings.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No car listings found in this category." });
+    }
+
+    return res.status(200).json(carListings);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const SearchCarListings = async (req, res) => {
+  const { condition, make, sellingPrice } = req.query;
+
+  let filter = {};
+
+  if (condition && condition !== "undefined") {
+    filter.condition = condition;
+  }
+  if (make && make !== "undefined") {
+    filter.make = make;
+  }
+  if (
+    sellingPrice &&
+    sellingPrice !== "undefined" &&
+    !isNaN(parseFloat(sellingPrice))
+  ) {
+    filter.sellingPrice = parseFloat(sellingPrice);
+  }
+
+  try {
+    const carListings = await CarListing.find(filter);
+    return res.status(200).json(carListings);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
