@@ -63,7 +63,7 @@ const App = () => {
           element: <ViewListing/>
         },
         {
-          path:'view-single-listing',
+          path:'view-single-listing/:id',
           element: <ViewSingleListing/>
         },
         {
