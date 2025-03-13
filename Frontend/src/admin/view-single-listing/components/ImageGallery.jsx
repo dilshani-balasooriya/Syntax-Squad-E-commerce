@@ -1,9 +1,14 @@
-import React from 'react';
+import React from "react";
 
-const ImageGallery = () => {
+const ImageGallery = ({ carDetail }) => {
   return (
-    <div>ImageGallery</div>
+    <div>
+      <img
+        src={carDetail?.imageUrl[0]}
+        className="w-full h-[500px] object-cover rounded-xl"
+      />
+    </div>
   );
-}
+};
 
 export default ImageGallery;
