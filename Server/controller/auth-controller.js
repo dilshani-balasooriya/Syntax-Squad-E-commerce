@@ -10,7 +10,7 @@ const createToken = (_id) => {
 }
 
 export const Register = async (req, res) => {
-  let { fullname, email, password, role } = req.body;
+  let { fullname, email, password } = req.body;
 
   if (fullname.length < 3) {
     return res
@@ -39,7 +39,6 @@ export const Register = async (req, res) => {
     fullname,
     email,
     password: hashPassword,
-    role,
   });
 
   await newUser
