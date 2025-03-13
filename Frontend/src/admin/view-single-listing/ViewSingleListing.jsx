@@ -5,6 +5,7 @@ import apiRequest from "@/lib/apiRequest";
 import DetailHeader from "./components/DetailHeader";
 import ImageGallery from "./components/ImageGallery";
 import Description from "./components/Description";
+import Features from "./components/Features";
 
 const ViewSingleListing = () => {
   const { id } = useParams();
@@ -38,6 +39,7 @@ const ViewSingleListing = () => {
           <div className="md:col-span-2">
             <ImageGallery carDetail={carDetail}/>
             <Description carDetail={carDetail} />
+            <Features features={carDetail?.features} />
           </div>
           <div className=""></div>
         </div>
