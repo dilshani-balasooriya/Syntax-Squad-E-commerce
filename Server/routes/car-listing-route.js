@@ -1,5 +1,5 @@
 import express from 'express';
-import { CreateCarListing, DeleteCarListing, EditCarListing, GetAllCarListing, GetCarListingCount, GetListingsByCategory, GetSingleCarListing, GetUserCarListing, GetUserCarListingCount, SearchCarListings } from '../controller/car-listing-controller.js';
+import { CreateCarListing, DeleteCarListing, EditCarListing, GetAllCarListing, GetCarListingCount, GetFuelTypeCount, GetListingsByCategory, GetSingleCarListing, GetUserCarListing, GetUserCarListingCount, SearchCarListings } from '../controller/car-listing-controller.js';
 import verifyToken from '../middleware/verifyToken.js';
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.get('/get-listings-by-category/:category', GetListingsByCategory);
 router.get('/search', SearchCarListings);
 router.get('/get-user-listing-count', verifyToken, GetUserCarListingCount);
 router.get('/get-listing-count', GetCarListingCount);
+router.get('/fuel-type-count', GetFuelTypeCount);
 router.post('/create-listing', verifyToken, CreateCarListing);
 router.put('/edit-car-list/:id', verifyToken, EditCarListing);
 router.delete('/delete-car-list/:id', verifyToken, DeleteCarListing);
