@@ -115,3 +115,15 @@ export const GetOwnersDetailProfile = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    if (!users.length) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
