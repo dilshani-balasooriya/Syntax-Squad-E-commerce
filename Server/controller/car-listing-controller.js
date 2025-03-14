@@ -203,3 +203,15 @@ export const DeleteCarListing = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetUserCarListingCount = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const totalListings = await CarListing.countDocuments({ userId });
+    return res.status(200).json({ count: totalListings });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
