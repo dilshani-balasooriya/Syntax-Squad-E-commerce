@@ -13,6 +13,7 @@ import SearchByCategory from "./search/[category]/SearchByCategory";
 import SearchByOptions from "./search/SearchByOptions";
 import ListingDetail from "./listing-details/[id]/ListingDetail";
 import { AuthProvider } from "./context/AuthContext";
+import VehiclesList from "./pages/VehiclesList";
 
 const App = () => {
 
@@ -20,6 +21,10 @@ const App = () => {
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/vehicles-list",
+      element: <VehiclesList />,
     },
     {
       path:'/contact',
@@ -58,7 +63,7 @@ const App = () => {
           element: <ViewListing/>
         },
         {
-          path:'view-single-listing',
+          path:'view-single-listing/:id',
           element: <ViewSingleListing/>
         },
         {

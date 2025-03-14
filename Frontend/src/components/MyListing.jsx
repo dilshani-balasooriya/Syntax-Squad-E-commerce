@@ -31,7 +31,7 @@ const MyListing = () => {
       <div className="mt-6">
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-4xl">My Listing</h2>
-          <Link to={"/admin"}>
+          <Link to={"/admin/dashboard"}>
             <Button>Go to dashboard</Button>
           </Link>
         </div>

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import User from "../schema/User.js";
+import CarListing from "../schema/CarListing.js";
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
@@ -83,6 +84,54 @@ export const GetProfile = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
     res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const GetOwnersDetailProfile = async (req, res) => {
+  const { listingId } = req.params;
+
+  try {
+    const carListing = await CarListing.findById(listingId);
+
+    if (!carListing) {
+      return res.status(404).json({ error: "Car listing not found." });
+    }
+
+    const ownerProfile = await User.findById(carListing.userId).select(
+      "-password"
+    );
+
+    if (!ownerProfile) {
+      return res.status(404).json({ error: "Owner profile not found." });
+    }
+
+    return res.status(200).json(ownerProfile);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const GetAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    if (!users.length) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const GetUserCount = async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    res.status(200).json({ count: userCount });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }

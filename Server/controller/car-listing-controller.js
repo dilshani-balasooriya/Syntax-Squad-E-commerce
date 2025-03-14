@@ -56,7 +56,7 @@ export const CreateCarListing = async (req, res) => {
     await newCarListing.save();
     return res.status(201).json("Save listing successfully!");
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res
       .status(500)
       .json({ error: "Server error, please try again later." });
@@ -172,6 +172,54 @@ export const SearchCarListings = async (req, res) => {
   try {
     const carListings = await CarListing.find(filter);
     return res.status(200).json(carListings);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const DeleteCarListing = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const carListing = await CarListing.findById(id);
+
+    if (!carListing) {
+      return res.status(404).json({ error: "Car listing not found." });
+    }
+
+    if (carListing.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Unauthorized action." });
+    }
+
+    await CarListing.findByIdAndDelete(id);
+    return res
+      .status(200)
+      .json({ message: "Car listing deleted successfully!" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const GetUserCarListingCount = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const totalListings = await CarListing.countDocuments({ userId });
+    return res.status(200).json({ count: totalListings });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const GetCarListingCount = async (req, res) => {
+  try {
+    const totalListings = await CarListing.countDocuments();
+    return res.status(200).json({ count: totalListings });
   } catch (error) {
     return res
       .status(500)

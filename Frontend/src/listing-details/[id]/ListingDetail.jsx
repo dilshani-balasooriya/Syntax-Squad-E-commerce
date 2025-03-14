@@ -10,6 +10,7 @@ import Pricing from "../components/Pricing";
 import Specification from "../components/Specification";
 import MostSearchedCar from "@/components/MostSearchedCar";
 import Footer from "@/components/Footer";
+import OwnersDetail from "../components/OwnersDetail";
 
 const ListingDetail = () => {
   const { id } = useParams();
@@ -54,6 +55,7 @@ const ListingDetail = () => {
           <div>
             <Pricing carDetail={carDetail} />
             <Specification carDetail={carDetail} />
+            <OwnersDetail listingId={id}/>
           </div>
         </div>
         <MostSearchedCar />

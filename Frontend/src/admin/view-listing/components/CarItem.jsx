@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { FaEdit, FaEye, FaTrashAlt } from "react-icons/fa";
@@ -6,8 +6,23 @@ import { GiGearStickPattern } from "react-icons/gi";
 import { LuFuel } from "react-icons/lu";
 import { TbBrandSpeedtest } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import apiRequest from "@/lib/apiRequest";
+import AuthContext from "@/context/AuthContext";
+import DeleteField from "./DeleteField";
 
 const CarItem = ({ car }) => {
+  const { token } = useContext(AuthContext);
+
+  const handleDelete = async () => {
+    try {
+      await apiRequest.delete(`/car-listing/delete-car-list/${car._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="rounded-xl bg-white border hover:shadow-md cursor-pointer">
       <img
@@ -44,19 +59,20 @@ const CarItem = ({ car }) => {
       <Separator />
 
       <div className="p-3 flex justify-evenly gap-8">
-        <Link to={`/admin/view-single-listing`} className="w-full">
+        <Link to={`/admin/view-single-listing/${car?._id}`} className="w-full">
           <Button className="bg-green-700 hover:bg-green-600 w-full">
             <FaEye />
           </Button>
         </Link>
-        <Link to={`/admin/add-listing?mode=edit&id=${car?._id}`} className="w-full">
+        <Link
+          to={`/admin/add-listing?mode=edit&id=${car?._id}`}
+          className="w-full"
+        >
           <Button className="w-full bg-yellow-400 hover:bg-yellow-500">
             <FaEdit />
           </Button>
         </Link>
-        <Button variant="destructive" className='w-full'>
-          <FaTrashAlt />
-        </Button>
+        <DeleteField handleDelete={handleDelete} />
       </div>
     </div>
   );
