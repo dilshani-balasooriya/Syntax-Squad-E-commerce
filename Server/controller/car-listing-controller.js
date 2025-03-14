@@ -207,7 +207,7 @@ export const DeleteCarListing = async (req, res) => {
 export const GetUserCarListingCount = async (req, res) => {
   try {
     const userId = req.user._id;
-    const totalListings = await CarListing.countDocuments({ userId });
+    const totalListings = await CarListing.countDocuments({ userId }) || 0;
     return res.status(200).json({ count: totalListings });
   } catch (error) {
     return res
@@ -218,7 +218,7 @@ export const GetUserCarListingCount = async (req, res) => {
 
 export const GetCarListingCount = async (req, res) => {
   try {
-    const totalListings = await CarListing.countDocuments();
+    const totalListings = await CarListing.countDocuments() || 0;
     return res.status(200).json({ count: totalListings });
   } catch (error) {
     return res
