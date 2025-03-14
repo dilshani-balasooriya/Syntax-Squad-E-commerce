@@ -207,7 +207,7 @@ export const DeleteCarListing = async (req, res) => {
 export const GetUserCarListingCount = async (req, res) => {
   try {
     const userId = req.user._id;
-    const totalListings = await CarListing.countDocuments({ userId }) || 0;
+    const totalListings = (await CarListing.countDocuments({ userId })) || 0;
     return res.status(200).json({ count: totalListings });
   } catch (error) {
     return res
@@ -218,9 +218,30 @@ export const GetUserCarListingCount = async (req, res) => {
 
 export const GetCarListingCount = async (req, res) => {
   try {
-    const totalListings = await CarListing.countDocuments() || 0;
+    const totalListings = (await CarListing.countDocuments()) || 0;
     return res.status(200).json({ count: totalListings });
   } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+export const GetFuelTypeCount = async (req, res) => {
+  try {
+    const fuelTypeCounts = await CarListing.aggregate([
+      { $group: { _id: "$fuelType", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]);
+
+    const result = fuelTypeCounts.map((entry) => ({
+      fuelType: entry._id || "Unknown",
+      count: entry.count,
+    }));
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
     return res
       .status(500)
       .json({ error: "Server error, please try again later." });
