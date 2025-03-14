@@ -60,7 +60,7 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div>
@@ -93,7 +93,7 @@ const Dashboard = () => {
         </motion.div>
 
         <div className="">
-          <FuelTypeChart fuelType={fuelType}/>
+          <FuelTypeChart fuelType={fuelType} />
         </div>
       </div>
     </div>
