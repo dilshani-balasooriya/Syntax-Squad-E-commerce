@@ -9,11 +9,13 @@ import AuthContext from "@/context/AuthContext";
 const Dashboard = () => {
   const [userCount, setUserCount] = useState();
   const [userListingCount, setUserListingCount] = useState();
+  const [totalListingCount, setTotalListingCount] = useState();
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
     GetUserCount();
     GetUserListingCount();
+    GetTotalListingCount();
   }, []);
 
   const GetUserCount = async () => {
@@ -39,6 +41,15 @@ const Dashboard = () => {
     }
   };
 
+  const GetTotalListingCount = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/get-listing-count");
+      setTotalListingCount(response.data.count);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <AdminHeader title="Dashboard" />
@@ -60,6 +71,12 @@ const Dashboard = () => {
             icon={CarFront}
             color="#10B981"
             value={userListingCount}
+          />
+          <StatCard
+            name="Total Listing Count"
+            icon={CarFront}
+            color="#E50046"
+            value={totalListingCount}
           />
         </motion.div>
       </div>
