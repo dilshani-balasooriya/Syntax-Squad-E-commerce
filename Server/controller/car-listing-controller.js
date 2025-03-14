@@ -215,3 +215,14 @@ export const GetUserCarListingCount = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetCarListingCount = async (req, res) => {
+  try {
+    const totalListings = await CarListing.countDocuments();
+    return res.status(200).json({ count: totalListings });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
