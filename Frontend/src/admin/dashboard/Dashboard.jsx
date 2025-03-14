@@ -5,17 +5,20 @@ import { motion } from "framer-motion";
 import { CarFront, Users } from "lucide-react";
 import apiRequest from "@/lib/apiRequest";
 import AuthContext from "@/context/AuthContext";
+import FuelTypeChart from "./components/FuelTypeChart";
 
 const Dashboard = () => {
   const [userCount, setUserCount] = useState();
   const [userListingCount, setUserListingCount] = useState();
   const [totalListingCount, setTotalListingCount] = useState();
+  const [fuelType, setFuelType] = useState([]);
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
     GetUserCount();
     GetUserListingCount();
     GetTotalListingCount();
+    GetFuelType();
   }, []);
 
   const GetUserCount = async () => {
@@ -50,6 +53,15 @@ const Dashboard = () => {
     }
   };
 
+  const GetFuelType = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/fuel-type-count");
+      setFuelType(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <AdminHeader title="Dashboard" />
@@ -79,6 +91,10 @@ const Dashboard = () => {
             value={totalListingCount}
           />
         </motion.div>
+
+        <div className="">
+          <FuelTypeChart fuelType={fuelType}/>
+        </div>
       </div>
     </div>
   );
