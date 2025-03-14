@@ -3,15 +3,24 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
+const UploadImages = ({ onUploadComplete, setLoader, carInfo, mode }) => {
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
+  const [EditCarImageList,setEditCarImageList]=useState([]);
+  
 
   useEffect(() => {
-    if (triggerUploadImages) {
+    if (mode === "edit" && carInfo?.imageUrl?.length) {
+      setEditCarImageList(carInfo.imageUrl);
+    }
+  }, [carInfo, mode]);  
+
+  useEffect(() => {
+    if (selectedFileList.length > 0) {
       UploadImageToServer();
     }
-  }, [triggerUploadImages]);
+  }, [selectedFileList]);
+
 
   const onFileSelected = (event) => {
     const files = event.target.files;
@@ -20,10 +29,16 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
   };
 
   const onImageRemove = (image) => {
-    setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    // setSelectedFileList((prev) => prev.filter((item) => item !== image));
+    if (existingImageUrls.includes(image)) {
+      setExistingImageUrls(existingImageUrls.filter((img) => img !== image));
+    } else {
+      setSelectedFileList(selectedFileList.filter((img) => img !== image));
+    }
   };
 
   const UploadImageToServer = async () => {
+    setLoader(true);
     try {
       const uploadedUrls = await Promise.all(
         selectedFileList.map(async (file) => {
@@ -37,7 +52,9 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
       setUploadedImageUrls(uploadedUrls);
       onUploadComplete(uploadedUrls);
     } catch (error) {
-      console.error("Error uploading images:", error);
+      console.log("Error uploading images:", error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -45,6 +62,19 @@ const UploadImages = ({ triggerUploadImages, onUploadComplete }) => {
     <div>
       <h2 className="font-medium text-xl my-3">Upload Car Images</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
+        {mode=='edit'&&
+          EditCarImageList.map((image, index) => (
+          <div key={index} className="relative">
+            <IoMdCloseCircle
+              className="absolute m-2 text-lg text-white cursor-pointer"
+              onClick={() => onImageRemove(image)}
+            />
+            <img
+              src={image}
+              className="w-full h-[130px] object-cover rounded-xl"
+            />
+          </div>
+        ))}
         {selectedFileList.map((image, index) => (
           <div key={index} className="relative">
             <IoMdCloseCircle

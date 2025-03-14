@@ -2,20 +2,20 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
-import { ClerkProvider } from "@clerk/clerk-react";
 import Profile from "./pages/Profile";
 import AdminLayout from "./admin/AdminLayout";
 import AddListing from "./admin/add-listing/AddListing";
 import Dashboard from "./admin/dashboard/Dashboard";
 import Users from "./admin/users/Users";
+import ViewListing from "./admin/view-listing/ViewListing";
+import ViewSingleListing from "./admin/view-single-listing/ViewSingleListing";
+import SearchByCategory from "./search/[category]/SearchByCategory";
+import SearchByOptions from "./search/SearchByOptions";
+import ListingDetail from "./listing-details/[id]/ListingDetail";
+import { AuthProvider } from "./context/AuthContext";
+import VehiclesList from "./pages/VehiclesList";
 
 const App = () => {
-
-  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-  if (!PUBLISHABLE_KEY) {
-    throw new Error("Missing Publishable Key")
-  }
 
   const router = createBrowserRouter([
     {
@@ -23,12 +23,28 @@ const App = () => {
       element: <Home />,
     },
     {
+      path: "/vehicles-list",
+      element: <VehiclesList />,
+    },
+    {
       path:'/contact',
       element:<Contact/>
     },
     {
-      path:'/profile',
+      path:'/profile/:id',
       element:<Profile/>
+    },
+    {
+      path:'/search',
+      element:<SearchByOptions/>
+    },
+    {
+      path:'/search/:category',
+      element:<SearchByCategory/>
+    },
+    {
+      path:'/listing-details/:id',
+      element:<ListingDetail/>
     },
     {
       path:'/admin',
@@ -43,6 +59,14 @@ const App = () => {
           element: <AddListing/>
         },
         {
+          path:'view-listing',
+          element: <ViewListing/>
+        },
+        {
+          path:'view-single-listing/:id',
+          element: <ViewSingleListing/>
+        },
+        {
           path:'users',
           element: <Users/>
         },
@@ -51,9 +75,9 @@ const App = () => {
   ]);
 
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <AuthProvider>
       <RouterProvider router={router} />
-    </ClerkProvider>
+    </AuthProvider>
   )
 };
 

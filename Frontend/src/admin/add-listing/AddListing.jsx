@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -11,13 +11,54 @@ import { Button } from "@/components/ui/button";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
 import IconField from "./components/IconField";
+import { BiLoaderAlt } from "react-icons/bi";
 import UploadImages from "./components/UploadImages";
+import { useSearchParams } from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 
 const AddListing = () => {
   const [formData, setFormData] = useState({});
   const [featuresData, setFeaturesData] = useState({});
-  const [triggerUploadImages, setTriggerUploadImages] = useState(false);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
+  const [existingImageUrls, setExistingImageUrls] = useState([]);
+  const [loader, setLoader] = useState(false);
+  const [carInfo, setCarInfo] = useState();
+  const [searchParams] = useSearchParams();
+
+  const { token } = useContext(AuthContext);
+
+  const mode = searchParams.get("mode");
+  const recordId = searchParams.get("id");
+
+  useEffect(() => {
+    if (mode === "edit" && recordId) {
+      GetListingDetail();
+    }
+  }, [mode, recordId]);
+
+  useEffect(() => {
+    if (mode === "edit" && carInfo?.imageUrl?.length) {
+      setExistingImageUrls(carInfo.imageUrl);
+    }
+  }, [carInfo, mode]);
+
+  const GetListingDetail = async () => {
+    try {
+      setLoader(true);
+      const response = await apiRequest.get(
+        `/car-listing/get-single-car-listing/${recordId}`
+      );
+      const data = response.data;
+
+      setCarInfo(data);
+      setFeaturesData(data.features);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update listing details!");
+    } finally {
+      setLoader(false);
+    }
+  };
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
@@ -34,28 +75,44 @@ const AddListing = () => {
   };
 
   const handleImageUploadComplete = (imageUrls) => {
-    setUploadedImageUrls(imageUrls);
-    setTriggerUploadImages(false);
+    // setUploadedImageUrls(imageUrls);
+    setUploadedImageUrls((prev) => [...prev, ...imageUrls]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (uploadedImageUrls.length === 0) {
-      setTriggerUploadImages(true);
-      return;
-    }
-
+    setLoader(true);
     try {
       const dataToSend = {
         ...formData,
         features: featuresData,
-        imageUrl: uploadedImageUrls,
+        imageUrl: [...existingImageUrls, ...uploadedImageUrls],
       };
-      await apiRequest.post("/car-listing/create-listing", dataToSend);
-      toast.success("Created new vehicle listing successfully 👍");
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      if (mode === "edit") {
+        await apiRequest.put(
+          `/car-listing/edit-car-list/${recordId}`,
+          dataToSend,
+          config
+        );
+        toast.success("Listing updated successfully 👍");
+      } else {
+        await apiRequest.post(
+          "/car-listing/create-listing",
+          dataToSend,
+          config
+        );
+        toast.success("Created new vehicle listing successfully 👍");
+      }
     } catch (error) {
+      console.log(error);
       toast.error("Failed to add listing!");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -63,9 +120,11 @@ const AddListing = () => {
     <>
       <Toaster />
       <div>
-        <AdminHeader title={"Add Listing"} />
+        <AdminHeader title={mode === "edit" ? "Edit Listing" : "Add Listing"} />
         <div className="px-10 md:px-20 my-10">
-          <h2 className="font-bold text-4xl">Add New Listing</h2>
+          <h2 className="font-bold text-4xl">
+            {mode === "edit" ? "Edit Listing" : "Add New Listing"}
+          </h2>
           <form
             className="p-10 border rounded-xl mt-10"
             onSubmit={handleSubmit}
@@ -87,18 +146,21 @@ const AddListing = () => {
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : item.fieldType === "dropdown" ? (
                       <DropdownField
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : item.fieldType === "textarea" ? (
                       <TextAreaField
                         item={item}
                         value={formData[item.name] || ""}
                         handleInputChange={handleInputChange}
+                        carInfo={carInfo}
                       />
                     ) : null}
                   </div>
@@ -128,13 +190,23 @@ const AddListing = () => {
 
             {/* Car Images */}
             <UploadImages
-              triggerUploadImages={triggerUploadImages}
               onUploadComplete={handleImageUploadComplete}
+              setLoader={(v) => setLoader(v)}
+              carInfo={carInfo}
+              mode={mode}
             />
 
             <div className="mt-10 flex justify-end">
-              <Button type="submit" className="bg-red-500">
-                Submit
+              <Button
+                type="submit"
+                disabled={loader}
+                className="bg-red-500 hover:bg-red-600"
+              >
+                {!loader ? (
+                  "Submit"
+                ) : (
+                  <BiLoaderAlt className="animate-spin text-lg" />
+                )}
               </Button>
             </div>
           </form>
