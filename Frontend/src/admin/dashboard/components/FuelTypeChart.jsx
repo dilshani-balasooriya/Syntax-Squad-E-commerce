@@ -35,7 +35,12 @@ const FuelTypeChart = ({ fuelType }) => {
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
             <XAxis dataKey="name" stroke="#9CA3AF" />
-            <YAxis stroke="#9CA3AF" />
+            <YAxis
+              stroke="#9CA3AF"
+              domain={[0, "dataMax"]}
+              allowDecimals={false}
+              tickFormatter={(value) => Math.round(value)}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "rgba(31, 41, 55, 0.8)",
