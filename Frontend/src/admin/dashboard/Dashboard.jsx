@@ -1,26 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import StatCard from "./components/StatCard";
 import { motion } from "framer-motion";
-import { Users } from "lucide-react";
+import { CarFront, Users } from "lucide-react";
 import apiRequest from "@/lib/apiRequest";
+import AuthContext from "@/context/AuthContext";
 
 const Dashboard = () => {
-
   const [userCount, setUserCount] = useState();
+  const [userListingCount, setUserListingCount] = useState();
+  const { token } = useContext(AuthContext);
 
-  useEffect(()=>{
+  useEffect(() => {
     GetUserCount();
-  },[]);
+    GetUserListingCount();
+  }, []);
 
   const GetUserCount = async () => {
     try {
-      const response = await apiRequest.get('/auth/get-user-count');
+      const response = await apiRequest.get("/auth/get-user-count");
       setUserCount(response.data.count);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const GetUserListingCount = async () => {
+    try {
+      const response = await apiRequest.get(
+        "/car-listing/get-user-listing-count",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setUserListingCount(response.data.count);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -32,7 +49,18 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <StatCard name="Total Users" icon={Users} color="#8B5CF6" value={userCount} />
+          <StatCard
+            name="Total Users"
+            icon={Users}
+            color="#8B5CF6"
+            value={userCount}
+          />
+          <StatCard
+            name="User Listing Count"
+            icon={CarFront}
+            color="#10B981"
+            value={userListingCount}
+          />
         </motion.div>
       </div>
     </div>
