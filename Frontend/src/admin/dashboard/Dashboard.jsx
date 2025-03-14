@@ -1,8 +1,15 @@
 import React from 'react';
+import AdminHeader from '../AdminHeader';
+import StatCard from './components/StatCard';
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <AdminHeader title="Dashboard" />
+      <div className="">
+        <StatCard/>
+      </div>
+    </div>
   );
 }
 
