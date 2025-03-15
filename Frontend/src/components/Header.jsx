@@ -13,7 +13,7 @@ const Header = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [profileDetail, setProfileDetail] = useState();
-  const { token } = useContext(AuthContext);
+  const { token, setUserRole } = useContext(AuthContext);
 
   useEffect(()=>{
     GetProfile();
@@ -28,6 +28,8 @@ const Header = () => {
       const response = await apiRequest.get(`/auth/get-profile/${userId}`);
       const data = response.data;
       setProfileDetail(data);
+      setUserRole(data.role);
+      localStorage.setItem("role", data.role);
     } catch (error) {
       console.log(error);
     }
