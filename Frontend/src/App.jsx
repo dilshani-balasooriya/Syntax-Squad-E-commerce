@@ -14,9 +14,9 @@ import SearchByOptions from "./search/SearchByOptions";
 import ListingDetail from "./listing-details/[id]/ListingDetail";
 import { AuthProvider } from "./context/AuthContext";
 import VehiclesList from "./pages/VehiclesList";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -27,50 +27,56 @@ const App = () => {
       element: <VehiclesList />,
     },
     {
-      path:'/contact',
-      element:<Contact/>
+      path: "/contact",
+      element: <Contact />,
     },
     {
-      path:'/profile/:id',
-      element:<Profile/>
+      path: "/profile/:id",
+      element: <Profile />,
     },
     {
-      path:'/search',
-      element:<SearchByOptions/>
+      path: "/search",
+      element: <SearchByOptions />,
     },
     {
-      path:'/search/:category',
-      element:<SearchByCategory/>
+      path: "/search/:category",
+      element: <SearchByCategory />,
     },
     {
-      path:'/listing-details/:id',
-      element:<ListingDetail/>
+      path: "/listing-details/:id",
+      element: <ListingDetail />,
     },
     {
-      path:'/admin',
-      element: <AdminLayout/>,
+      path: "/admin",
+      element: <ProtectedRoute allowedRoles={["admin"]} />,
       children: [
         {
-          path:'dashboard',
-          element: <Dashboard/>
+          path: "",
+          element: <AdminLayout />,
+          children: [
+            {
+              path: "dashboard",
+              element: <Dashboard />,
+            },
+            {
+              path: "add-listing",
+              element: <AddListing />,
+            },
+            {
+              path: "view-listing",
+              element: <ViewListing />,
+            },
+            {
+              path: "view-single-listing/:id",
+              element: <ViewSingleListing />,
+            },
+            {
+              path: "users",
+              element: <Users />,
+            },
+          ],
         },
-        {
-          path:'add-listing',
-          element: <AddListing/>
-        },
-        {
-          path:'view-listing',
-          element: <ViewListing/>
-        },
-        {
-          path:'view-single-listing/:id',
-          element: <ViewSingleListing/>
-        },
-        {
-          path:'users',
-          element: <Users/>
-        },
-      ]
+      ],
     },
   ]);
 
@@ -78,7 +84,7 @@ const App = () => {
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  )
+  );
 };
 
 export default App;
