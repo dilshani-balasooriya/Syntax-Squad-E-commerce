@@ -15,36 +15,43 @@ import ListingDetail from "./listing-details/[id]/ListingDetail";
 import { AuthProvider } from "./context/AuthContext";
 import VehiclesList from "./pages/VehiclesList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./Layout/Layout";
 
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/vehicles-list",
-      element: <VehiclesList />,
-    },
-    {
-      path: "/contact",
-      element: <Contact />,
-    },
-    {
-      path: "/profile/:id",
-      element: <Profile />,
-    },
-    {
-      path: "/search",
-      element: <SearchByOptions />,
-    },
-    {
-      path: "/search/:category",
-      element: <SearchByCategory />,
-    },
-    {
-      path: "/listing-details/:id",
-      element: <ListingDetail />,
+      element: <Layout />,
+      children: [
+        {
+          path: "",
+          element: <Home />,
+        },
+        {
+          path: "/vehicles-list",
+          element: <VehiclesList />,
+        },
+        {
+          path: "/contact",
+          element: <Contact />,
+        },
+        {
+          path: "/profile/:id",
+          element: <Profile />,
+        },
+        {
+          path: "/search",
+          element: <SearchByOptions />,
+        },
+        {
+          path: "/search/:category",
+          element: <SearchByCategory />,
+        },
+        {
+          path: "/listing-details/:id",
+          element: <ListingDetail />,
+        },
+      ]
     },
     {
       path: "/admin",
