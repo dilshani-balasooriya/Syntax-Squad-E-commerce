@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart,
@@ -11,25 +11,67 @@ import {
   Legend,
   Cell,
 } from "recharts";
+import { jsPDF } from "jspdf";
+import * as htmlToImage from "html-to-image";
+import { File } from "lucide-react";
 
 const FuelTypeChart = ({ fuelType }) => {
-  const chartData = fuelType.map((entry, index) => ({
+  const chartRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  const chartData = fuelType.map((entry) => ({
     name: entry.fuelType,
     value: entry.count,
   }));
 
   const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
+  const exportToPDF = async () => {
+    try {
+      const chartElement = chartRef.current;
+      const buttonElement = buttonRef.current;
+
+      if (!chartElement) return;
+
+      if (buttonElement) buttonElement.style.display = "none";
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      const imgData = await htmlToImage.toPng(chartElement);
+
+      if (buttonElement) buttonElement.style.display = "block";
+
+      const pdf = new jsPDF("landscape", "px", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+      pdf.save("FuelTypeChart.pdf");
+    } catch (error) {
+      console.error("Error exporting chart to PDF:", error);
+    }
+  };
+
   return (
     <motion.div
+      ref={chartRef}
       className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 lg:col-span-2 border border-gray-700"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
     >
-      <h2 className="text-lg font-medium mb-4 text-gray-100">
-        FuelTypes Vehicles
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-medium text-gray-100">
+          FuelTypes Vehicles
+        </h2>
+        <button
+          ref={buttonRef}
+          onClick={exportToPDF}
+          className="px-4 py-2 text-white rounded-lg"
+        >
+          <File />
+        </button>
+      </div>
+
       <div className="h-80">
         <ResponsiveContainer>
           <BarChart data={chartData}>
