@@ -48,9 +48,7 @@ const MyListing = () => {
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-4xl">My Listing</h2>
           {profileDetail?.role === "admin" && (
-            <Link to={"/admin/dashboard"}>
-              <Button>Go to dashboard</Button>
-            </Link>
+            <Button onClick={() => (window.location.href = "/admin/dashboard")}>Go to dashboard</Button>
           )}
         </div>
 
