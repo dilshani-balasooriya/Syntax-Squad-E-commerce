@@ -6,12 +6,14 @@ import { CarFront, Users } from "lucide-react";
 import apiRequest from "@/lib/apiRequest";
 import AuthContext from "@/context/AuthContext";
 import FuelTypeChart from "./components/FuelTypeChart";
+import CategoryTypeChart from "./components/CategoryTypeChart";
 
 const Dashboard = () => {
   const [userCount, setUserCount] = useState();
   const [userListingCount, setUserListingCount] = useState();
   const [totalListingCount, setTotalListingCount] = useState();
   const [fuelType, setFuelType] = useState([]);
+  const [categoryType, setCategoryType] = useState([]);
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const Dashboard = () => {
     GetUserListingCount();
     GetTotalListingCount();
     GetFuelType();
+    GetCategoryType();
   }, []);
 
   const GetUserCount = async () => {
@@ -62,6 +65,15 @@ const Dashboard = () => {
     }
   };
 
+  const GetCategoryType = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/category-count");
+      setCategoryType(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <AdminHeader title="Dashboard" />
@@ -92,8 +104,9 @@ const Dashboard = () => {
           />
         </motion.div>
 
-        <div className="">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <FuelTypeChart fuelType={fuelType} />
+          <CategoryTypeChart categoryType={categoryType} />
         </div>
       </div>
     </div>

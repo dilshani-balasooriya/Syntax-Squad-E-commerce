@@ -12,13 +12,13 @@ import {
   Cell,
 } from "recharts";
 
-const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
-
 const FuelTypeChart = ({ fuelType }) => {
   const chartData = fuelType.map((entry, index) => ({
     name: entry.fuelType,
     value: entry.count,
   }));
+
+  const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
   return (
     <motion.div
