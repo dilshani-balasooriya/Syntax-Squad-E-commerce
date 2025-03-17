@@ -13,7 +13,7 @@ const Login = ({ onClose, openRegister }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { setToken } = useContext(AuthContext);
+  const { setToken, setUserRole } = useContext(AuthContext);
 
   let navigate = useNavigate();
 
@@ -29,7 +29,9 @@ const Login = ({ onClose, openRegister }) => {
       });
 
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.role);
       setToken(res.data.token);
+      setUserRole(res.data.role);
 
 
       onClose();
