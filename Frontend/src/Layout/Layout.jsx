@@ -1,9 +1,14 @@
-import React from 'react';
+import Chatbot from "@/components/Chatbot";
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div>Layout</div>
+    <>
+      <Outlet />
+      <Chatbot />
+    </>
   );
-}
+};
 
 export default Layout;
