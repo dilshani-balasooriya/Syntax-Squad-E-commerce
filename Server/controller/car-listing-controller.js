@@ -247,3 +247,24 @@ export const GetFuelTypeCount = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetCategoryCount = async (req, res) => {
+  try {
+    const categoryCounts = await CarListing.aggregate([
+      { $group: { _id: "$category", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]);
+
+    const result = categoryCounts.map((entry) => ({
+      category: entry._id || "Unknown",
+      count: entry.count,
+    }));
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
