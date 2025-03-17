@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import AuthContext from "@/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import apiRequest from "@/lib/apiRequest";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditProfile = ({ profileDetail }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,11 +31,13 @@ const EditProfile = ({ profileDetail }) => {
       if (password) {
         updatedData.password = password;
       }
-      const response = await apiRequest.put(`/auth/edit-user/${userId}`, updatedData, {
+      await apiRequest.put(`/auth/edit-user/${userId}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      toast.success("Profile updated successfully 👍");
     } catch (error) {
       console.log(error);
+      toast.error("Failed to update profile.");
     }
   };
 
@@ -78,8 +80,8 @@ const EditProfile = ({ profileDetail }) => {
             </div>
 
             <div className="flex gap-4">
-              <Button type="submit">Update Profile</Button>
-              <Button type="button">Back to Profile</Button>
+              <Button>Update Profile</Button>
+              <Button>Back to Profile</Button>
             </div>
           </form>
         </div>
