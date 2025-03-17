@@ -57,7 +57,7 @@ const ProfileCom = () => {
             </div>
           </>
         ) : (
-          <EditProfile profileDetail={profileDetail} />
+          <EditProfile profileDetail={profileDetail} setIsEditing={setIsEditing}/>
         )}
       </div>
     </div>

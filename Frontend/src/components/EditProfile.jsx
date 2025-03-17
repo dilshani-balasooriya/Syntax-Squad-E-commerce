@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
 
-const EditProfile = ({ profileDetail }) => {
+const EditProfile = ({ profileDetail, setIsEditing }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState(profileDetail?.fullname);
   const [password, setPassword] = useState("");
@@ -81,7 +81,7 @@ const EditProfile = ({ profileDetail }) => {
 
             <div className="flex gap-4">
               <Button>Update Profile</Button>
-              <Button>Back to Profile</Button>
+              <Button onClick={() => setIsEditing(false)}>Back to Profile</Button>
             </div>
           </form>
         </div>
