@@ -41,10 +41,20 @@ const FuelTypeChart = ({ fuelType }) => {
 
       if (buttonElement) buttonElement.style.display = "block";
 
-      const pdf = new jsPDF("landscape", "px", "a4");
+      const pdf = new jsPDF("landscape", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+      const imageWidth = pdfWidth - 20;
+      const imageHeight =
+        (chartElement.offsetHeight * imageWidth) / chartElement.offsetWidth;
+
+      if (imageHeight > pdfHeight - 20) {
+        const scaleFactor = (pdfHeight - 20) / imageHeight;
+        imageWidth *= scaleFactor;
+        imageHeight = pdfHeight - 20;
+      }
+
+      pdf.addImage(imgData, "PNG", 10, 10, imageWidth, imageHeight);
       pdf.save("FuelTypeChart.pdf");
     } catch (error) {
       console.error("Error exporting chart to PDF:", error);
@@ -68,7 +78,7 @@ const FuelTypeChart = ({ fuelType }) => {
           onClick={exportToPDF}
           className="px-3 py-3 text-white rounded-full hover:bg-gray-700 transition-colors duration-200"
         >
-          <File size={20}/>
+          <File size={20} />
         </button>
       </div>
 
