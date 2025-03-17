@@ -87,7 +87,7 @@ const EditProfile = ({ profileDetail, setIsEditing }) => {
             </div>
 
             <div className="flex gap-4">
-              <Button>Update Profile</Button>
+              <Button className="bg-green-600 hover:bg-green-700 w-full">Update Profile</Button>
               <Button onClick={() => setIsEditing(false)}>
                 Back to Profile
               </Button>
