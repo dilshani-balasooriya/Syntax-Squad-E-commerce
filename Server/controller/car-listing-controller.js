@@ -268,3 +268,16 @@ export const GetCategoryCount = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetHotOfferCount = async (req, res) => {
+  try {
+    const hotOfferCount =
+      (await CarListing.countDocuments({ offerType: "Hot Offer" })) || 0;
+    return res.status(200).json({ count: hotOfferCount });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
