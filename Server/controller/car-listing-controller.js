@@ -281,3 +281,46 @@ export const GetHotOfferCount = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+export const GetListingsOverTime = async (req, res) => {
+  try {
+    const listingsOverTime = await CarListing.aggregate([
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.month": 1 } },
+    ]);
+
+    const formattedData = listingsOverTime.map((entry) => ({
+      name: monthNames[entry._id.month - 1],
+      count: entry.count,
+    }));
+
+    return res.status(200).json(formattedData);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
