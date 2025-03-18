@@ -7,6 +7,7 @@ import apiRequest from "@/lib/apiRequest";
 import AuthContext from "@/context/AuthContext";
 import FuelTypeChart from "./components/FuelTypeChart";
 import CategoryTypeChart from "./components/CategoryTypeChart";
+import ListingsOverTimeChart from "./components/ListingsOverTimeChart";
 
 const Dashboard = () => {
   const [userCount, setUserCount] = useState();
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const [hotOfferCount, setHotOfferCount] = useState();
   const [fuelType, setFuelType] = useState([]);
   const [categoryType, setCategoryType] = useState([]);
+  const [listingsOverTime, setListingsOverTime] = useState([]);
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const Dashboard = () => {
     GetFuelType();
     GetCategoryType();
     GetHotOfferCount();
+    GetListingsOverTime();
   }, []);
 
   const GetUserCount = async () => {
@@ -85,6 +88,15 @@ const Dashboard = () => {
     }
   }
 
+  const GetListingsOverTime = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/listings-over-time");
+      setListingsOverTime(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <AdminHeader title="Dashboard" />
@@ -124,6 +136,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <FuelTypeChart fuelType={fuelType} />
           <CategoryTypeChart categoryType={categoryType} />
+          <ListingsOverTimeChart listingsOverTime={listingsOverTime} />
         </div>
       </div>
     </div>
