@@ -311,12 +311,19 @@ export const GetListingsOverTime = async (req, res) => {
       { $sort: { "_id.month": 1 } },
     ]);
 
-    const formattedData = listingsOverTime.map((entry) => ({
-      name: monthNames[entry._id.month - 1],
-      count: entry.count,
-    }));
+    const completeData = [];
+    for (let i = 0; i < 12; i++) {
+      const existingData = listingsOverTime.find(
+        (entry) => entry._id.month === i + 1
+      );
 
-    return res.status(200).json(formattedData);
+      completeData.push({
+        name: monthNames[i],
+        count: existingData ? existingData.count : 0,
+      });
+    }
+
+    return res.status(200).json(completeData);
   } catch (error) {
     console.error(error);
     return res
