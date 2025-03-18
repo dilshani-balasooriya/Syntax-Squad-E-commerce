@@ -44,8 +44,8 @@ const FuelTypeChart = ({ fuelType }) => {
       const pdf = new jsPDF("landscape", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imageWidth = pdfWidth - 20;
-      const imageHeight =
+      let imageWidth = pdfWidth - 20;
+      let imageHeight =
         (chartElement.offsetHeight * imageWidth) / chartElement.offsetWidth;
 
       if (imageHeight > pdfHeight - 20) {

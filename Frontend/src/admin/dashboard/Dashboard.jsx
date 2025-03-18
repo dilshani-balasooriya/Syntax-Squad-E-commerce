@@ -2,18 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import StatCard from "./components/StatCard";
 import { motion } from "framer-motion";
-import { CarFront, Users } from "lucide-react";
+import { CarFront, Users, Zap } from "lucide-react";
 import apiRequest from "@/lib/apiRequest";
 import AuthContext from "@/context/AuthContext";
 import FuelTypeChart from "./components/FuelTypeChart";
 import CategoryTypeChart from "./components/CategoryTypeChart";
+import ListingsOverTimeChart from "./components/ListingsOverTimeChart";
 
 const Dashboard = () => {
   const [userCount, setUserCount] = useState();
   const [userListingCount, setUserListingCount] = useState();
   const [totalListingCount, setTotalListingCount] = useState();
+  const [hotOfferCount, setHotOfferCount] = useState();
   const [fuelType, setFuelType] = useState([]);
   const [categoryType, setCategoryType] = useState([]);
+  const [listingsOverTime, setListingsOverTime] = useState([]);
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
@@ -22,6 +25,8 @@ const Dashboard = () => {
     GetTotalListingCount();
     GetFuelType();
     GetCategoryType();
+    GetHotOfferCount();
+    GetListingsOverTime();
   }, []);
 
   const GetUserCount = async () => {
@@ -74,6 +79,24 @@ const Dashboard = () => {
     }
   }
 
+  const GetHotOfferCount = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/hot-offer-count");
+      setHotOfferCount(response.data.count);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const GetListingsOverTime = async () => {
+    try {
+      const response = await apiRequest.get("/car-listing/listings-over-time");
+      setListingsOverTime(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div>
       <AdminHeader title="Dashboard" />
@@ -102,11 +125,18 @@ const Dashboard = () => {
             color="#E50046"
             value={totalListingCount}
           />
+          <StatCard
+            name="Total Hot Offer Listing Count"
+            icon={Zap}
+            color="#F59E0B"
+            value={hotOfferCount}
+          />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <FuelTypeChart fuelType={fuelType} />
           <CategoryTypeChart categoryType={categoryType} />
+          <ListingsOverTimeChart listingsOverTime={listingsOverTime} />
         </div>
       </div>
     </div>

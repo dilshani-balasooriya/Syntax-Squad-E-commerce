@@ -268,3 +268,66 @@ export const GetCategoryCount = async (req, res) => {
       .json({ error: "Server error, please try again later." });
   }
 };
+
+export const GetHotOfferCount = async (req, res) => {
+  try {
+    const hotOfferCount =
+      (await CarListing.countDocuments({ offerType: "Hot Offer" })) || 0;
+    return res.status(200).json({ count: hotOfferCount });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};
+
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+export const GetListingsOverTime = async (req, res) => {
+  try {
+    const listingsOverTime = await CarListing.aggregate([
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.month": 1 } },
+    ]);
+
+    const completeData = [];
+    for (let i = 0; i < 12; i++) {
+      const existingData = listingsOverTime.find(
+        (entry) => entry._id.month === i + 1
+      );
+
+      completeData.push({
+        name: monthNames[i],
+        count: existingData ? existingData.count : 0,
+      });
+    }
+
+    return res.status(200).json(completeData);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "Server error, please try again later." });
+  }
+};

@@ -7,7 +7,9 @@ import {
   GetCarListingCount,
   GetCategoryCount,
   GetFuelTypeCount,
+  GetHotOfferCount,
   GetListingsByCategory,
+  GetListingsOverTime,
   GetSingleCarListing,
   GetUserCarListing,
   GetUserCarListingCount,
@@ -26,6 +28,8 @@ router.get("/get-user-listing-count", verifyToken, GetUserCarListingCount);
 router.get("/get-listing-count", GetCarListingCount);
 router.get("/fuel-type-count", GetFuelTypeCount);
 router.get("/category-count", GetCategoryCount);
+router.get("/hot-offer-count", GetHotOfferCount);
+router.get("/listings-over-time", GetListingsOverTime);
 router.post("/create-listing", verifyToken, CreateCarListing);
 router.put("/edit-car-list/:id", verifyToken, EditCarListing);
 router.delete("/delete-car-list/:id", verifyToken, DeleteCarListing);
