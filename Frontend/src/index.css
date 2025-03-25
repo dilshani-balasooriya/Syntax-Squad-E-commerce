@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
@@ -121,4 +122,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.custom-font {
+  font-family: 'Anton', sans-serif;
 }
