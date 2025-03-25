@@ -50,9 +50,11 @@ const Header = () => {
         <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
           News
         </li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Contact us
-        </li>
+        <NavLink to={'/contact'}>
+          <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+            Contact us
+          </li>
+        </NavLink>
       </ul>
 
       <div className="relative">
