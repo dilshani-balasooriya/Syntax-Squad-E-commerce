@@ -15,13 +15,12 @@ const Header = () => {
   const [profileDetail, setProfileDetail] = useState();
   const { token } = useContext(AuthContext);
 
-  useEffect(()=>{
+  useEffect(() => {
     GetProfile();
-  },[]);
+  }, []);
 
   const GetProfile = async () => {
     try {
-
       const decodedToken = jwtDecode(token);
       const userId = decodedToken._id;
 
@@ -31,7 +30,7 @@ const Header = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex justify-between items-center shadow-sm p-5 relative">
@@ -41,12 +40,12 @@ const Header = () => {
         <span className="font-semibold text-2xl custom-font">VCS.lk</span>
       </div>
       <ul className="hidden md:flex gap-16">
-        <NavLink to={'/'}>
+        <NavLink to={"/"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Home
           </li>
         </NavLink>
-        <NavLink to={'/vehicles-list'}>
+        <NavLink to={"/vehicles-list"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Vehicles
           </li>
@@ -56,7 +55,7 @@ const Header = () => {
             News
           </li>
         </NavLink> */}
-        <NavLink to={'/contact'}>
+        <NavLink to={"/contact"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Contact us
           </li>
@@ -74,7 +73,11 @@ const Header = () => {
                 className="w-12 h-12 object-cover rounded-full border-3 border-gray-300"
               />
             </button>
-            {isProfileMenuOpen && <UserNavigationPanel />}
+            {isProfileMenuOpen && (
+              <UserNavigationPanel
+                onClose={() => setIsProfileMenuOpen(false)}
+              />
+            )}
           </div>
         )}
 
