@@ -15,13 +15,12 @@ const Header = () => {
   const [profileDetail, setProfileDetail] = useState();
   const { token } = useContext(AuthContext);
 
-  useEffect(()=>{
+  useEffect(() => {
     GetProfile();
-  },[]);
+  }, []);
 
   const GetProfile = async () => {
     try {
-
       const decodedToken = jwtDecode(token);
       const userId = decodedToken._id;
 
@@ -31,28 +30,38 @@ const Header = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="flex justify-between items-center shadow-sm p-5 relative">
-      <img src="/logo.svg" width={150} height={100} alt="Logo" />
+      {/* <img src="/logo.svg" width={45} height={45} alt="Logo" /> */}
+      <NavLink to={"/"}>
+        <div className="flex items-center gap-2">
+          <img src="/logo.svg" width={40} height={40} alt="Logo" />
+          <span className="font-semibold text-2xl custom-font">VCS.lk</span>
+        </div>
+      </NavLink>
       <ul className="hidden md:flex gap-16">
-        <NavLink to={'/'}>
+        <NavLink to={"/"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Home
           </li>
         </NavLink>
-        <NavLink to={'/vehicles-list'}>
+        <NavLink to={"/vehicles-list"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Vehicles
           </li>
         </NavLink>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          News
-        </li>
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
-          Contact us
-        </li>
+        {/* <NavLink to={'/news'}>
+          <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+            News
+          </li>
+        </NavLink> */}
+        <NavLink to={"/contact"}>
+          <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
+            Contact us
+          </li>
+        </NavLink>
       </ul>
 
       <div className="relative">
@@ -66,7 +75,11 @@ const Header = () => {
                 className="w-12 h-12 object-cover rounded-full border-3 border-gray-300"
               />
             </button>
-            {isProfileMenuOpen && <UserNavigationPanel />}
+            {isProfileMenuOpen && (
+              <UserNavigationPanel
+                onClose={() => setIsProfileMenuOpen(false)}
+              />
+            )}
           </div>
         )}
 

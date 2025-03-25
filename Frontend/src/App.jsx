@@ -16,6 +16,7 @@ import { AuthProvider } from "./context/AuthContext";
 import VehiclesList from "./pages/VehiclesList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./Layout/Layout";
+import NewsPage from "./pages/NewsPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const App = () => {
         {
           path: "/contact",
           element: <Contact />,
+        },
+        {
+          path: "/news",
+          element: <NewsPage />,
         },
         {
           path: "/profile/:id",

@@ -6,7 +6,7 @@ const OwnersDetail = ({ listingId }) => {
 
   useEffect(() => {
     GetOwnersProfile();
-  }, []);
+  }, [listingId]);
 
   const GetOwnersProfile = async () => {
     try {
