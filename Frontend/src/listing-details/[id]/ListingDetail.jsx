@@ -18,7 +18,7 @@ const ListingDetail = () => {
 
   useEffect(() => {
     GetCarDetail();
-  }, []);
+  }, [id]);
 
   const GetCarDetail = async () => {
     try {
