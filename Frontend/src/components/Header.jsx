@@ -35,10 +35,12 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center shadow-sm p-5 relative">
       {/* <img src="/logo.svg" width={45} height={45} alt="Logo" /> */}
-      <div className="flex items-center gap-2">
-        <img src="/logo.svg" width={40} height={40} alt="Logo" />
-        <span className="font-semibold text-2xl custom-font">VCS.lk</span>
-      </div>
+      <NavLink to={"/"}>
+        <div className="flex items-center gap-2">
+          <img src="/logo.svg" width={40} height={40} alt="Logo" />
+          <span className="font-semibold text-2xl custom-font">VCS.lk</span>
+        </div>
+      </NavLink>
       <ul className="hidden md:flex gap-16">
         <NavLink to={"/"}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
