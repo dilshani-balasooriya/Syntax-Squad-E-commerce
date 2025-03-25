@@ -47,11 +47,11 @@ const Header = () => {
             Vehicles
           </li>
         </NavLink>
-        <NavLink to={'/news'}>
+        {/* <NavLink to={'/news'}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             News
           </li>
-        </NavLink>
+        </NavLink> */}
         <NavLink to={'/contact'}>
           <li className="font-medium hover:scale-105 transition-all cursor-pointer hover:text-primary">
             Contact us
