@@ -7,13 +7,14 @@ import AuthContext from "@/context/AuthContext";
 import apiRequest from "@/lib/apiRequest";
 import { jwtDecode } from "jwt-decode";
 import { NavLink } from "react-router-dom";
+import ModalContext from "@/context/ModalContext";
 
 const Header = () => {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [profileDetail, setProfileDetail] = useState();
   const { token } = useContext(AuthContext);
+  const { isLoginOpen, setIsLoginOpen, isRegisterOpen, setIsRegisterOpen } =
+    useContext(ModalContext);
 
   useEffect(() => {
     GetProfile();
