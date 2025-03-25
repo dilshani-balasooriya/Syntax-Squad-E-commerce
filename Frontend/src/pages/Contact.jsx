@@ -22,6 +22,7 @@ const Contact = () => {
 
       if (response.ok) {
         toast.success("Your message has been successfully sent 👍");
+        formRef.current.reset();
       } else {
         console.error("Error submitting form");
       }
