@@ -40,7 +40,7 @@ const SearchByOptions = () => {
 
     useEffect(() => {
         GetCarList();
-    }, []);
+    }, [searchParam.toString()]);
 
     return (
         <div>
