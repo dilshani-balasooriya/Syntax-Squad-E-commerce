@@ -28,9 +28,12 @@ const CarItem = ({ car }) => {
       className="rounded-xl bg-white border hover:shadow-md cursor-pointer"
       onClick={handleClick}
     >
-      <h2 className="absolute m-2 bg-green-500 px-2 rounded-full text-sm text-white">
-        New
-      </h2>
+      {car?.condition === "New" && (
+        <h2 className="absolute m-2 bg-green-500 px-2 rounded-full text-sm text-white">
+          New
+        </h2>
+      )}
+
       <img
         src={car?.imageUrl[0]}
         width={"100%"}
