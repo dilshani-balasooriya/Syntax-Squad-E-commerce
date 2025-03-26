@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
 import apiRequest from "@/lib/apiRequest";
 import toast, { Toaster } from "react-hot-toast";
 import CarItem from "./CarItem";
