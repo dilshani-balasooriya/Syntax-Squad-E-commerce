@@ -17,6 +17,7 @@ import VehiclesList from "./pages/VehiclesList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./Layout/Layout";
 import NewsPage from "./pages/NewsPage";
+import { ModalProvider } from "./context/ModalContext";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -94,7 +95,9 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <ModalProvider>
+        <RouterProvider router={router}/>
+      </ModalProvider>
     </AuthProvider>
   );
 };

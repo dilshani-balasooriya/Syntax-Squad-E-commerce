@@ -18,6 +18,7 @@ import AuthContext from "@/context/AuthContext";
 
 const AddListing = () => {
   const [formData, setFormData] = useState({});
+  const [formKey, setFormKey] = useState(Date.now());
   const [featuresData, setFeaturesData] = useState({});
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [existingImageUrls, setExistingImageUrls] = useState([]);
@@ -108,6 +109,14 @@ const AddListing = () => {
         );
         toast.success("Created new vehicle listing successfully 👍");
       }
+
+
+      setFormData({});
+      setFeaturesData({});
+      setUploadedImageUrls([]);
+      setExistingImageUrls([]);
+      setFormKey(Date.now());
+
     } catch (error) {
       console.log(error);
       toast.error("Failed to add listing!");
@@ -128,6 +137,7 @@ const AddListing = () => {
           <form
             className="p-10 border rounded-xl mt-10"
             onSubmit={handleSubmit}
+            key={formKey}
           >
             {/* Car Details */}
             <div>
