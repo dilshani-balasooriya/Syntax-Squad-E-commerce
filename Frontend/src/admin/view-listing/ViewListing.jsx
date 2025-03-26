@@ -20,6 +20,12 @@ const ViewListing = () => {
     }
   };
 
+  const handleDeleteSuccess = (deletedCarId) => {
+    setCarListings((prevListings) =>
+      prevListings.filter((car) => car._id !== deletedCarId)
+    );
+  };
+
   useEffect(() => {
     GetUserCarListing();
   }, []);
@@ -30,7 +36,7 @@ const ViewListing = () => {
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-7 gap-8">
         {carListings.map((item, index) => (
           <div key={index}>
-            <CarItem car={item} />
+            <CarItem car={item} onDeleteSuccess={handleDeleteSuccess} />
           </div>
         ))}
       </div>

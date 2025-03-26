@@ -10,7 +10,7 @@ import apiRequest from "@/lib/apiRequest";
 import AuthContext from "@/context/AuthContext";
 import DeleteField from "./DeleteField";
 
-const CarItem = ({ car }) => {
+const CarItem = ({ car, onDeleteSuccess }) => {
   const { token } = useContext(AuthContext);
 
   const handleDelete = async () => {
@@ -18,6 +18,7 @@ const CarItem = ({ car }) => {
       await apiRequest.delete(`/car-listing/delete-car-list/${car._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      onDeleteSuccess(car._id);
     } catch (error) {
       console.log(error);
     }
