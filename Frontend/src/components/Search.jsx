@@ -52,7 +52,7 @@ const Search = () => {
         </SelectTrigger>
         <SelectContent>
           {Data.Pricing.map((price, index) => (
-            <SelectItem value={price.amount}>{price.amount}$</SelectItem>
+            <SelectItem value={price.amount}>LKR - {price.amount}</SelectItem>
           ))}
         </SelectContent>
       </Select>

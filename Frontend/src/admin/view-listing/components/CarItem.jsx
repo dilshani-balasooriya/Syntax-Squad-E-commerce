@@ -53,7 +53,7 @@ const CarItem = ({ car, onDeleteSuccess }) => {
         </div>
         <Separator className="my-2" />
         <div className="flex items-center justify-between text-black">
-          <h2 className="font-bold text-xl">${car.sellingPrice}</h2>
+          <h2 className="font-bold text-xl">LKR {car.sellingPrice}</h2>
         </div>
       </div>
 

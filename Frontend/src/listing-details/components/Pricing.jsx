@@ -4,7 +4,7 @@ const Pricing = ({carDetail}) => {
   return (
     <div className='p-10 rounded-xl border shadow-md'>
         <h2>Our Price</h2>
-        <h2 className='font-bold text-4xl'>${carDetail?.sellingPrice}</h2>
+        <h2 className='font-bold text-4xl'>LKR {carDetail?.sellingPrice}</h2>
     </div>
   );
 }
