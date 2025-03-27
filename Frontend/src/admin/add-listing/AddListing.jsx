@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AdminHeader from "../AdminHeader";
 import carDetails from "../../Shared/carDetails.json";
 import InputField from "./components/InputField";
@@ -14,15 +14,19 @@ import IconField from "./components/IconField";
 import { BiLoaderAlt } from "react-icons/bi";
 import UploadImages from "./components/UploadImages";
 import { useSearchParams } from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 
 const AddListing = () => {
   const [formData, setFormData] = useState({});
+  const [formKey, setFormKey] = useState(Date.now());
   const [featuresData, setFeaturesData] = useState({});
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
   const [existingImageUrls, setExistingImageUrls] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [carInfo,setCarInfo]=useState();
+  const [carInfo, setCarInfo] = useState();
   const [searchParams] = useSearchParams();
+
+  const { token } = useContext(AuthContext);
 
   const mode = searchParams.get("mode");
   const recordId = searchParams.get("id");
@@ -72,8 +76,17 @@ const AddListing = () => {
   };
 
   const handleImageUploadComplete = (imageUrls) => {
-    // setUploadedImageUrls(imageUrls);
     setUploadedImageUrls((prev) => [...prev, ...imageUrls]);
+  };
+
+  const handleImageRemove = (imageToRemove) => {
+    setUploadedImageUrls((prev) =>
+      prev.filter((image) => image !== imageToRemove)
+    );
+
+    setExistingImageUrls((prev) =>
+      prev.filter((image) => image !== imageToRemove)
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -86,15 +99,38 @@ const AddListing = () => {
         imageUrl: [...existingImageUrls, ...uploadedImageUrls],
       };
 
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
       if (mode === "edit") {
         await apiRequest.put(
           `/car-listing/edit-car-list/${recordId}`,
-          dataToSend
+          dataToSend,
+          config
         );
         toast.success("Listing updated successfully 👍");
+
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setCarInfo(null);
+        setFormKey(Date.now()); 
+
       } else {
-        await apiRequest.post("/car-listing/create-listing", dataToSend);
+        await apiRequest.post(
+          "/car-listing/create-listing",
+          dataToSend,
+          config
+        );
         toast.success("Created new vehicle listing successfully 👍");
+
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setFormKey(Date.now());
       }
     } catch (error) {
       console.log(error);
@@ -116,6 +152,7 @@ const AddListing = () => {
           <form
             className="p-10 border rounded-xl mt-10"
             onSubmit={handleSubmit}
+            key={formKey}
           >
             {/* Car Details */}
             <div>
@@ -179,9 +216,12 @@ const AddListing = () => {
             {/* Car Images */}
             <UploadImages
               onUploadComplete={handleImageUploadComplete}
+              onImageRemove={handleImageRemove}
               setLoader={(v) => setLoader(v)}
               carInfo={carInfo}
               mode={mode}
+              existingImages={existingImageUrls}
+              uploadedImages={uploadedImageUrls}
             />
 
             <div className="mt-10 flex justify-end">

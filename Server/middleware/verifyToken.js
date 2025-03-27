@@ -1,21 +1,21 @@
 import jwt from "jsonwebtoken";
 
-const verifyToken = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(" ")[1];
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Unauthorized" });
+    if (!token) {
+        return res.status(401).json({ error: "No access token" });
     }
 
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: "Access token is invalid" });
+        }
 
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "Invalid or expired token" });
-  }
+        req.user = user;
+        next();
+    });
 };
 
 export default verifyToken;

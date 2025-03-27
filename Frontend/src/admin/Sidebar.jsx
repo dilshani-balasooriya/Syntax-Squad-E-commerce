@@ -1,13 +1,38 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BarChart2, Menu, ShoppingBag, Users, Columns2 } from "lucide-react";
+import {
+  BarChart2,
+  Menu,
+  ShoppingBag,
+  Users,
+  Columns2,
+  ArrowLeft,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 const SIDEBAR_ITEMS = [
-  { name: "Dashboard", icon: BarChart2, color: "#6366f1", href: "/admin/dashboard" },
-  { name: "View Listing", icon: Columns2, color: "#10B981", href: "/admin/view-listing",},
-  { name: "Add Listing", icon: ShoppingBag, color: "#8B5CF6", href: "/admin/add-listing",},
-  { name: "Users", icon: Users, color: "#EC4899", href: "/admin/users" },
+  {
+    name: "Dashboard",
+    icon: BarChart2,
+    color: "#6366f1",
+    href: "/admin/dashboard",
+  },
+  {
+    name: "View Listing",
+    icon: Columns2,
+    color: "#10B981",
+    href: "/admin/view-listing",
+  },
+  {
+    name: "Add Listing",
+    icon: ShoppingBag,
+    color: "#8B5CF6",
+    href: "/admin/add-listing",
+  },
+  { name: "Users", 
+    icon: Users, 
+    color: "#EC4899", 
+    href: "/admin/users" },
 ];
 
 const Sidebar = () => {
@@ -55,6 +80,27 @@ const Sidebar = () => {
             </Link>
           ))}
         </nav>
+        <Link to="/" className="mt-auto">
+          <motion.div className="flex items-center p-4 text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mb-8">
+            <ArrowLeft
+              size={20}
+              style={{ color: "#ffffff", minWidth: "20px" }}
+            />
+            <AnimatePresence>
+              {isSidebarOpen && (
+                <motion.span
+                  className="ml-4 whitespace-nowrap"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "auto" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2, delay: 0.3 }}
+                >
+                  Back to Home
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </Link>
       </div>
     </motion.div>
   );

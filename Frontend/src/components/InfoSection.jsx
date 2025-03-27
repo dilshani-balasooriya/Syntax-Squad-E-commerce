@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const InfoSection = () => {
   return (
@@ -9,7 +10,7 @@ const InfoSection = () => {
             <div className="relative h-64 sm:h-80 lg:h-full">
               <img
                 alt=""
-                src="https://hips.hearstapps.com/hmg-prod/images/rt-mercedes-benz-cpo-1-1531414981.jpg?crop=1.00xw:0.755xh;0,0.169xh&resize=640:*"
+                src="./benz.jpg"
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -20,23 +21,24 @@ const InfoSection = () => {
 
             <div className="p-8 sm:p-16 lg:p-24">
               <h2 className="text-2xl font-bold sm:text-3xl">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Tempore, debitis.
+                Get in Touch with Us
               </h2>
 
               <p className="mt-4 text-gray-600">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Aliquid, molestiae! Quidem est esse numquam odio deleniti,
-                beatae, magni dolores provident quaerat totam eos, aperiam
-                architecto eius quis quibusdam fugiat dicta.
+                For more information, feel free to contact us by clicking the
+                button below. We are ready to assist you with any inquiries or
+                support you may need. You can also communicate with our AI agent
+                for instant responses, personalized recommendations, making
+                appointments, and real-time assistance to help you find the
+                information you're looking for quickly and efficiently.
               </p>
 
-              <a
-                href="#"
+              <Link
+                to={"/contact"}
                 className="mt-8 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
               >
-                Get in Touch
-              </a>
+                Contact Us
+              </Link>
             </div>
           </div>
         </div>

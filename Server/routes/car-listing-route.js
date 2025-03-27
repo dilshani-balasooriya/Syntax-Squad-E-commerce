@@ -1,13 +1,37 @@
-import express from 'express';
-import { CreateCarListing, EditCarListing, GetAllCarListing, GetSingleCarListing, GetUserCarListing } from '../controller/car-listing-controller.js';
-import verifyToken from '../middleware/verifyToken.js';
+import express from "express";
+import {
+  CreateCarListing,
+  DeleteCarListing,
+  EditCarListing,
+  GetAllCarListing,
+  GetCarListingCount,
+  GetCategoryCount,
+  GetFuelTypeCount,
+  GetHotOfferCount,
+  GetListingsByCategory,
+  GetListingsOverTime,
+  GetSingleCarListing,
+  GetUserCarListing,
+  GetUserCarListingCount,
+  SearchCarListings,
+} from "../controller/car-listing-controller.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.post('/create-listing', verifyToken, CreateCarListing);
-router.get('/get-all-listing', GetAllCarListing);
-router.get('/get-user-listing', verifyToken, GetUserCarListing);
-router.get('/get-single-car-listing/:id', verifyToken, GetSingleCarListing);
-router.put('/edit-car-list/:id', verifyToken, EditCarListing);
+router.get("/get-all-listing", GetAllCarListing);
+router.get("/get-user-listing", verifyToken, GetUserCarListing);
+router.get("/get-single-car-listing/:id", GetSingleCarListing);
+router.get("/get-listings-by-category/:category", GetListingsByCategory);
+router.get("/search", SearchCarListings);
+router.get("/get-user-listing-count", verifyToken, GetUserCarListingCount);
+router.get("/get-listing-count", GetCarListingCount);
+router.get("/fuel-type-count", GetFuelTypeCount);
+router.get("/category-count", GetCategoryCount);
+router.get("/hot-offer-count", GetHotOfferCount);
+router.get("/listings-over-time", GetListingsOverTime);
+router.post("/create-listing", verifyToken, CreateCarListing);
+router.put("/edit-car-list/:id", verifyToken, EditCarListing);
+router.delete("/delete-car-list/:id", verifyToken, DeleteCarListing);
 
 export default router;
