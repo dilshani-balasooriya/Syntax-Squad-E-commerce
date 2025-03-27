@@ -39,7 +39,6 @@ const UploadImages = ({
       );
 
       onUploadComplete(uploadedUrls);
-      // Reset selectedFileList after uploading
       setSelectedFileList([]);
     } catch (error) {
       console.log("Error uploading images:", error);
@@ -49,10 +48,7 @@ const UploadImages = ({
   };
 
   const handleImageRemove = (image) => {
-    // If it's an existing image, call the parent's remove method
     onImageRemove(image);
-
-    // If it's a local file, remove from selectedFileList
     if (selectedFileList.some((file) => URL.createObjectURL(file) === image)) {
       setSelectedFileList(
         selectedFileList.filter((file) => URL.createObjectURL(file) !== image)

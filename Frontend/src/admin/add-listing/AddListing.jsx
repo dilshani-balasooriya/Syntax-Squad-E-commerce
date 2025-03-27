@@ -110,6 +110,14 @@ const AddListing = () => {
           config
         );
         toast.success("Listing updated successfully 👍");
+
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setCarInfo(null);
+        setFormKey(Date.now()); 
+
       } else {
         await apiRequest.post(
           "/car-listing/create-listing",
@@ -117,13 +125,13 @@ const AddListing = () => {
           config
         );
         toast.success("Created new vehicle listing successfully 👍");
-      }
 
-      setFormData({});
-      setFeaturesData({});
-      setUploadedImageUrls([]);
-      setExistingImageUrls([]);
-      setFormKey(Date.now());
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setFormKey(Date.now());
+      }
     } catch (error) {
       console.log(error);
       toast.error("Failed to add listing!");
