@@ -76,8 +76,17 @@ const AddListing = () => {
   };
 
   const handleImageUploadComplete = (imageUrls) => {
-    // setUploadedImageUrls(imageUrls);
     setUploadedImageUrls((prev) => [...prev, ...imageUrls]);
+  };
+
+  const handleImageRemove = (imageToRemove) => {
+    setUploadedImageUrls((prev) =>
+      prev.filter((image) => image !== imageToRemove)
+    );
+
+    setExistingImageUrls((prev) =>
+      prev.filter((image) => image !== imageToRemove)
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -101,6 +110,14 @@ const AddListing = () => {
           config
         );
         toast.success("Listing updated successfully 👍");
+
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setCarInfo(null);
+        setFormKey(Date.now()); 
+
       } else {
         await apiRequest.post(
           "/car-listing/create-listing",
@@ -108,15 +125,13 @@ const AddListing = () => {
           config
         );
         toast.success("Created new vehicle listing successfully 👍");
+
+        setFormData({});
+        setFeaturesData({});
+        setUploadedImageUrls([]);
+        setExistingImageUrls([]);
+        setFormKey(Date.now());
       }
-
-
-      setFormData({});
-      setFeaturesData({});
-      setUploadedImageUrls([]);
-      setExistingImageUrls([]);
-      setFormKey(Date.now());
-
     } catch (error) {
       console.log(error);
       toast.error("Failed to add listing!");
@@ -201,9 +216,12 @@ const AddListing = () => {
             {/* Car Images */}
             <UploadImages
               onUploadComplete={handleImageUploadComplete}
+              onImageRemove={handleImageRemove}
               setLoader={(v) => setLoader(v)}
               carInfo={carInfo}
               mode={mode}
+              existingImages={existingImageUrls}
+              uploadedImages={uploadedImageUrls}
             />
 
             <div className="mt-10 flex justify-end">
